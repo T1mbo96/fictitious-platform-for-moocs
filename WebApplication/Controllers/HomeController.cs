@@ -13,17 +13,18 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult SearchCourse()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult AddCourse()
         {
-            ViewBag.Message = "Your contact page.";
+            return View();
+        }
 
+        public ActionResult MyCourses()
+        {
             return View();
         }
     }
