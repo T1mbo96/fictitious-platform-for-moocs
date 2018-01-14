@@ -123,5 +123,20 @@ namespace WebApplication.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult SearchCourse()
+        {
+            return View();
+        }
+
+        public ActionResult AddCourse()
+        {
+            return View();
+        }
+
+        public ActionResult MyCourses()
+        {
+            return View();
+        }
     }
 }

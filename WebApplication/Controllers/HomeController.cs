@@ -12,20 +12,5 @@ namespace WebApplication.Controllers
         {
             return View();
         }
-
-        public ActionResult SearchCourse()
-        {
-            return View();
-        }
-
-        public ActionResult AddCourse()
-        {
-            return View();
-        }
-
-        public ActionResult MyCourses()
-        {
-            return View();
-        }
     }
 }

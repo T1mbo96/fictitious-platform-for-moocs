@@ -279,9 +279,9 @@
     <Content Include="Views\Types\Details.cshtml" />
     <Content Include="Views\Types\Edit.cshtml" />
     <Content Include="Views\Types\Index.cshtml" />
-    <Content Include="Views\Home\SearchCourse.cshtml" />
-    <Content Include="Views\Home\AddCourse.cshtml" />
-    <Content Include="Views\Home\MyCourses.cshtml" />
+    <Content Include="Views\Courses\SearchCourse.cshtml" />
+    <Content Include="Views\Courses\AddCourse.cshtml" />
+    <Content Include="Views\Courses\MyCourses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
