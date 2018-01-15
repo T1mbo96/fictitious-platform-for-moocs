@@ -129,6 +129,15 @@ namespace WebApplication.Controllers
             return View();
         }
 
+        public ActionResult SearchResult(string searchString)
+        {
+            var model = db.Tags.Where(tag => tag.Name == searchString);
+            List<Tag> result = model.ToList<Tag>();
+            ViewBag.Message = result.ToString();
+            ViewBag.searchString = searchString;
+            return View();
+        }
+
         public ActionResult AddCourse()
         {
             return View();

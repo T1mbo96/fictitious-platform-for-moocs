@@ -1,10 +1,10 @@
 ﻿@{
     ViewBag.Title = "Kurs suchen";
 }
-
-<form id="search-form">
+<h1 id="search-header">QDCourse</h1>
+<form class="search-form" action="@Url.Action("SearchResult", "Courses")" method="post">
     <div id="center-align">
-        <input type="text" class="search" placeholder="Suchen..." required>
-        <input type="button" class="button" value="Suchen">
+        <input type="text" class="search" placeholder="Suchen..." name="searchString" required>
+        <input type="submit" class="button" value="Suchen" id="SearchResult">
     </div>
 </form>

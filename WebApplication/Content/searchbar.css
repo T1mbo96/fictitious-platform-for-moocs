@@ -1,4 +1,4 @@
-﻿#search-form {
+﻿.search-form {
     width:50%;
     margin:50px auto;
 }
@@ -20,4 +20,11 @@
     background-color:#fafafa;
     color:#207cca;
 }
-
+#center-align {
+    text-align: center;
+    margin: 0 auto;
+}
+#search-header {
+    text-align: center;
+    margin: 0 auto;
+}
