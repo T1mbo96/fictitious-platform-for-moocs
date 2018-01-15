@@ -142,6 +142,12 @@ namespace WebApplication.Controllers
             return View(courses);
         }
 
+        public ActionResult SearchResultDetails(int id)
+        {
+            Course course = db.Courses.Find(id);
+            return View(course);
+        }
+
         public ActionResult AddCourse()
         {
             return View();
