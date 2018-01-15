@@ -129,13 +129,17 @@ namespace WebApplication.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult SearchResult(string searchString)
         {
-            var model = db.Tags.Where(tag => tag.Name == searchString);
-            List<Tag> result = model.ToList<Tag>();
-            ViewBag.Message = result.ToString();
-            ViewBag.searchString = searchString;
-            return View();
+            if(String.IsNullOrEmpty(searchString))
+            {
+                return View("SearchCourse");
+            }
+            string[] searchArr = searchString.Split(' ');
+            var result = db.Courses.Where(course => course.Assignments.Any(tag => searchArr.Contains(tag.Tag.Name)));
+            var courses = result.ToList();
+            return View(courses);
         }
 
         public ActionResult AddCourse()

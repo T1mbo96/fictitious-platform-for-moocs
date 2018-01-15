@@ -1,7 +1,41 @@
-﻿@{ 
+﻿@model IEnumerable<WebApplication.Models.Course>
+
+@{
     ViewBag.Title = "Suchergebnis";
 }
 
-@ViewBag.Message
-@ViewBag.searchString
+@if (Model.Count() == 0)
+{
+    <b>Es wurde kein Kurs mit den angegebenen Tags gefunden!</b>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
 

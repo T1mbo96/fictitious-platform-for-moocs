@@ -26,5 +26,10 @@
 }
 #search-header {
     text-align: center;
-    margin: 0 auto;
+    margin: 20px auto;
+}
+.description {
+    font-size: 12px;
+    color: darkslategray;
+    text-align: center;
 }

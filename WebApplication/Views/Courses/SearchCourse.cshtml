@@ -2,9 +2,12 @@
     ViewBag.Title = "Kurs suchen";
 }
 <h1 id="search-header">QDCourse</h1>
+<div class="description">
+    Um nach mehreren Tags zu suchen, geben Sie bitte die einzelnen Tags durch Leerzeichen (' ') getrennt an (z.B. "java c++ c#")
+</div>
 <form class="search-form" action="@Url.Action("SearchResult", "Courses")" method="post">
     <div id="center-align">
-        <input type="text" class="search" placeholder="Suchen..." name="searchString" required>
+        <input type="text" class="search" placeholder="Suchen..." name="searchString">
         <input type="submit" class="button" value="Suchen" id="SearchResult">
     </div>
 </form>
