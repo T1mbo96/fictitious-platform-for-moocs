@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace WebApplication.Models
 {

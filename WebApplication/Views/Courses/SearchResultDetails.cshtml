@@ -1,0 +1,28 @@
+﻿@model IEnumerable<WebApplication.Models.ContentGroupViewModel>
+
+@{
+    ViewBag.Title = "Details des Kurses";
+}
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Startseite</a></li>
+    <li><a href="@Url.Action("SearchCourse", "Courses")">Kurs suchen</a></li>
+    <li><a href="@Url.Action("SearchResult", "Courses")">Kurs suchen</a></li>
+    <li class="active">Details</li>
+</ol>
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        @foreach (var item in Model)
+        {
+            <dt>@Html.DisplayFor(modelItem => item.Name)</dt>
+            <dt>@Html.DisplayFor(modelItem => item.Order)</dt>
+            foreach (var sndItem in item.ContentElements)
+            {
+                <dt>@Html.DisplayFor(modelSndItem => sndItem.Description)</dt>
+            }
+        }
+    </dl>
+</div>
+
