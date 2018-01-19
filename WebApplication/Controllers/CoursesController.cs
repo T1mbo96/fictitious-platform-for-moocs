@@ -196,7 +196,7 @@ namespace WebApplication.Controllers
                 {
                     if (cgvw.Name == cg.Header)
                     {
-                        cgvw.ContentElements.Add(db.ContentElements.Find(cg.ContentElement));
+                        cgvw.ContentElements.Add(db.ContentElements.Find(cg.ContentId));
                         contentGroups.Remove(cg);
                     }
                 }
