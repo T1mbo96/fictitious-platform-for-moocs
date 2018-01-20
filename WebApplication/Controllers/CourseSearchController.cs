@@ -17,7 +17,7 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult SearchResult(string searchString)
         {
             if (String.IsNullOrEmpty(searchString))
@@ -35,19 +35,26 @@ namespace WebApplication.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult SearchResultDetails(int id, string searchString)
+        public ActionResult SearchResultDetails(int? id, string searchString)
         {
-            Course course = db.Courses.Find(id);
+            if (id == null)
+            {
+                return View("SearchCourse");
+            }
+            else
+            {
+                Course course = db.Courses.Find(id);
 
-            enrollAuthenticatedUser(course);
+                enrollAuthenticatedUser(course);
 
-            List<ContentGroupViewModel> groupedContentGroups = groupContentGroupElements(id);
-            List<ContentGroupViewModel> sortedGroupedContentGroups = sortContentGroupsAndElements(groupedContentGroups);
+                List<ContentGroupViewModel> groupedContentGroups = groupContentGroupElements((int) id);
+                List<ContentGroupViewModel> sortedGroupedContentGroups = sortContentGroupsAndElements(groupedContentGroups);
 
-            ViewBag.SearchString = searchString;
-            ViewBag.CourseName = course.Title;
+                ViewBag.SearchString = searchString;
+                ViewBag.CourseName = course.Title;
 
-            return View(sortedGroupedContentGroups);
+                return View(sortedGroupedContentGroups);
+            }
         }
 
         public List<ContentGroupViewModel> groupContentGroupElements(int id)

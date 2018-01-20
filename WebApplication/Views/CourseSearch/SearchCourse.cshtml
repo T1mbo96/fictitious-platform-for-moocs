@@ -9,7 +9,7 @@
 <div class="description">
     Um nach mehreren Tags zu suchen, geben Sie bitte die einzelnen Tags durch Leerzeichen (' ') getrennt an (z.B. "java c++ c#")
 </div>
-<form class="search-form" action="@Url.Action("SearchResult", "CourseSearch")" method="post">
+<form class="search-form" action="@Url.Action("SearchResult", "CourseSearch")" method="get">
     <div id="center-align">
         <input type="text" class="search" placeholder="Suchen..." name="searchString">
         <input type="submit" class="button" value="Suchen" id="SearchResult">
