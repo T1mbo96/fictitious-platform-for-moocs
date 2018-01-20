@@ -125,36 +125,7 @@ namespace WebApplication.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult SearchCourse()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult SearchResult(string searchString)
-        {
-            if(String.IsNullOrEmpty(searchString))
-            {
-                return View("SearchCourse");
-            }
-            string[] searchArr = searchString.Split(' ');
-            var result = db.Courses.Where(course => course.Assignments.Any(tag => searchArr.Contains(tag.Tag.Name)));
-            var courses = result.ToList();
-            return View(courses);
-        }
-
-        [Authorize]
-        public ActionResult SearchResultDetails(int id)
-        {
-            Course course = db.Courses.Find(id);
-
-            enrollUser(course);
-
-            List<ContentGroupViewModel> groupedContentGroups = groupContentGroupElements(id);
-            List<ContentGroupViewModel> sortedGroupedContentGroups = sortContentGroupsAndElements(groupedContentGroups);
-
-            return View(sortedGroupedContentGroups);
-        }
+        
 
         public ActionResult AddCourse()
         {
@@ -164,58 +135,6 @@ namespace WebApplication.Controllers
         public ActionResult MyCourses()
         {
             return View();
-        }
-
-        public void enrollUser(Course course)
-        {
-            Enrollment enr = new Enrollment();
-            var currentUserId = User.Identity.GetUserId();
-            var user = db.Users.Find(currentUserId);
-
-            enr.ApplicationUser = user;
-            enr.Course = course;
-            enr.CourseId = course.Id;
-            enr.Datetime = DateTime.Now;
-
-            db.Enrollments.Add(enr);
-            db.SaveChanges();
-        }
-
-        public List<ContentGroupViewModel> groupContentGroupElements(int id)
-        {
-            List<ContentGroup> contentGroups = db.ContentGroups.Where(contentGroup => contentGroup.CourseId == id).ToList();
-            List<ContentGroupViewModel> groupedContentGroups = new List<ContentGroupViewModel>();
-
-            while (contentGroups.Any())
-            {
-                ContentGroupViewModel cgvw = new ContentGroupViewModel();
-                cgvw.Name = contentGroups.First().Header;
-                cgvw.Order = contentGroups.First().Order;
-
-                foreach (ContentGroup cg in contentGroups.Reverse<ContentGroup>())
-                {
-                    if (cgvw.Name == cg.Header)
-                    {
-                        cgvw.ContentElements.Add(db.ContentElements.Find(cg.ContentId));
-                        contentGroups.Remove(cg);
-                    }
-                }
-
-                groupedContentGroups.Add(cgvw);
-            }
-
-            return groupedContentGroups;
-        }
-
-        public List<ContentGroupViewModel> sortContentGroupsAndElements(List<ContentGroupViewModel> groupedContentGroups)
-        {
-            groupedContentGroups.OrderBy(contentGroup => contentGroup.Order);
-            foreach (ContentGroupViewModel cgvw in groupedContentGroups)
-            {
-                cgvw.ContentElements.OrderBy(contentElement => contentElement.Order);
-            }
-
-            return groupedContentGroups;
         }
     }
 }

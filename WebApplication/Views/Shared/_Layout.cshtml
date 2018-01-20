@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Meine ASP.NET-Anwendung</title>
     @Styles.Render("~/Content/searchbar.css")
+    @Styles.Render("~/Content/searchresultdetails.css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -22,7 +23,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Kurs suchen", "SearchCourse", "Courses")</li>
+                    <li>@Html.ActionLink("Kurs suchen", "SearchCourse", "CourseSearch")</li>
                     <li>@Html.ActionLink("Kurs anlegen", "AddCourse", "Courses")</li>
                     <li>@Html.ActionLink("Meine Kurse", "MyCourses", "Courses")</li>
                     <li>@Html.ActionLink("CG", "Index", "ContentGroups")</li>

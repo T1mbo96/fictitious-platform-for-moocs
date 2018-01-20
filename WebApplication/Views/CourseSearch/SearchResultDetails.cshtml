@@ -7,11 +7,11 @@
 }
 <ol class="breadcrumb">
     <li><a href="@Url.Action("Index", "Home")">Startseite</a></li>
-    <li><a href="@Url.Action("SearchCourse", "Courses")">Kurs suchen</a></li>
-    <li><a href="@Url.Action("SearchResult", "Courses")">Kurs suchen</a></li>
+    <li><a href="@Url.Action("SearchCourse", "CourseSearch")">Kurs suchen</a></li>
+    <li>@Html.ActionLink("Suchergebnis", "SearchResult", "CourseSearch", htmlAttributes: new { searchString = ViewBag.SearchString })</li>
     <li class="active">Details</li>
 </ol>
-<h2>Details über den Kurs</h2>
+<h2>Details über den Kurs @ViewBag.CourseName</h2>
 
 @foreach (var item in Model)
 {
