@@ -48,7 +48,7 @@ namespace WebApplication.Models
 
     public enum Rating
     {
-        Eins, Zwei, Drei, Vier, Fünf
+        None, Eins, Zwei, Drei, Vier, Fünf
     }
 
     public class Enrollment

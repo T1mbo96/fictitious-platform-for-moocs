@@ -57,6 +57,7 @@ namespace WebApplication.Controllers
             }
         }
 
+        // Gruppiert alle ContentGroups eines Course und alle ContentElements der jeweiligen ContentGroup.
         public List<ContentGroupViewModel> groupContentGroupElements(int id)
         {
             List<ContentGroup> contentGroups = db.ContentGroups.Where(contentGroup => contentGroup.CourseId == id).ToList();
@@ -83,17 +84,20 @@ namespace WebApplication.Controllers
             return groupedContentGroups;
         }
 
+        // Behelfsmethode zur richtigen Sortierung der ContentGroups und deren ContentElements.
         public List<ContentGroupViewModel> sortContentGroupsAndElements(List<ContentGroupViewModel> groupedContentGroups)
         {
-            groupedContentGroups.OrderBy(contentGroup => contentGroup.Order);
-            foreach (ContentGroupViewModel cgvw in groupedContentGroups)
+            List<ContentGroupViewModel> orderedContentGroups = orderContentGroups(groupedContentGroups);
+
+            foreach(ContentGroupViewModel cgvw in orderedContentGroups)
             {
-                cgvw.ContentElements.OrderBy(contentElement => contentElement.Order);
+                cgvw.ContentElements = orderContentElements((List<ContentElement>) cgvw.ContentElements);
             }
 
-            return groupedContentGroups;
+            return orderedContentGroups;
         }
 
+        // Enrolled einen User in einen Course, falls dieser noch nicht enrolled ist.
         public void enrollAuthenticatedUser(Course course)
         {
             var userId = User.Identity.GetUserId();
@@ -105,10 +109,53 @@ namespace WebApplication.Controllers
                 enr.Course = course;
                 enr.CourseId = course.Id;
                 enr.Datetime = DateTime.Now;
+                enr.Rating = Rating.None;
 
                 db.Enrollments.Add(enr);
                 db.SaveChanges();
             }
+        }
+
+        // BubbleSort-Algorithmus zur Sortierung der ContentGroups über das ContentGroupViewModel nach der Order.
+        public List<ContentGroupViewModel> orderContentGroups(List<ContentGroupViewModel> groupedContentGroups)
+        {
+            ContentGroupViewModel[] groupArr = groupedContentGroups.ToArray();
+
+            for(int i = 0; i < groupArr.Length; i++)
+            {
+                for(int j = i; j < groupArr.Length; j++)
+                {
+                    if(groupArr[i].Order > groupArr[j].Order)
+                    {
+                        ContentGroupViewModel cgvw = groupArr[i];
+                        groupArr[i] = groupArr[j];
+                        groupArr[j] = cgvw;
+                    }
+                }
+            }
+
+            return groupArr.ToList();
+        }
+
+        // BubbleSort-Algorithmus zur Sortierung der ContentElements nach der Order.
+        public List<ContentElement> orderContentElements(List<ContentElement> groupedContentElements)
+        {
+            ContentElement[] elementArr = groupedContentElements.ToArray();
+
+            for(int i = 0; i < elementArr.Length; i++)
+            {
+                for(int j = i; j < elementArr.Length; j++)
+                {
+                    if(elementArr[i].Order > elementArr[j].Order)
+                    {
+                        ContentElement ce = elementArr[i];
+                        elementArr[i] = elementArr[j];
+                        elementArr[j] = ce;
+                    }
+                }
+            }
+
+            return elementArr.ToList();
         }
     }
 }
