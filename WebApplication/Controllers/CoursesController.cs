@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models;
+using System.Collections.Generic;
+
 
 namespace WebApplication.Controllers
 {
@@ -125,12 +127,54 @@ namespace WebApplication.Controllers
             base.Dispose(disposing);
         }
 
-        
-
-        public ActionResult AddCourse()
+        public class CourseCreationViewModel
         {
-            return View();
+            public string Title { get; set; }
+            public string Description { get; set; }
+         
         }
+        [HttpPost]
+        public ActionResult AddCourse(WebApplication.Models.Course cc, string Tags)
+        {
+            
+            char delimiter = ',';
+            string[] tg = Tags.Split(delimiter);
+            LinkedList<Assignment> Assig = new LinkedList<Assignment>();
+           
+            
+            
+            foreach (var substring in tg)
+            {   WebApplication.Models.Assignment assign = new WebApplication.Models.Assignment();
+                    assign.CourseId = cc.Id;
+                    assign.Course = cc;
+
+                if (Tags.Contains(substring)==false){
+                 
+
+                    WebApplication.Models.Tag tag= new WebApplication.Models.Tag();
+                    tag.Name = substring;
+                    assign.Tag = tag;
+                    assign.TagId = tag.Id;
+
+                    Assig.AddFirst(assign);
+
+                    tag.Assignments.Add(assign);
+
+                    db.Tags.Add(tag);
+                    db.Assignments.Add(assign);
+                }else
+                {
+                    int count = Tags.Count();
+                   for (int i=0; i < count; i++){
+                     
+                    }
+                }
+            }
+            db.Courses.Add(cc);
+            return View("CourseContent");
+        }
+
+        
 
         public ActionResult MyCourses()
         {
