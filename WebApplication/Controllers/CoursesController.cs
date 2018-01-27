@@ -136,19 +136,26 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult AddCourse(WebApplication.Models.Course cc, string Tags)
         {
-            
+            Course cou = new Course();
+            cou.Description = cc.Description;
+            cou.Title = cc.Title;
             char delimiter = ',';
             string[] tg = Tags.Split(delimiter);
-            LinkedList<Assignment> Assig = new LinkedList<Assignment>();
+            LinkedList<Assignment> AssigT = new LinkedList<Assignment>();
+            LinkedList<Assignment> AssigC = new LinkedList<Assignment>();
+
+
            
-            
-            
+        int count = db.Tags.Count();
+
             foreach (var substring in tg)
             {   WebApplication.Models.Assignment assign = new WebApplication.Models.Assignment();
                     assign.CourseId = cc.Id;
                     assign.Course = cc;
-
-                if (Tags.Contains(substring)==false){
+                
+             for (int i=0; i < count; i++){
+                   
+                if (db.Tags.ElementAt(i).Name==substring){
                  
 
                     WebApplication.Models.Tag tag= new WebApplication.Models.Tag();
@@ -156,21 +163,38 @@ namespace WebApplication.Controllers
                     assign.Tag = tag;
                     assign.TagId = tag.Id;
 
-                    Assig.AddFirst(assign);
+                    AssigT.AddFirst(assign);
+                    AssigC.AddFirst(assign);
 
                     tag.Assignments.Add(assign);
+                    
 
                     db.Tags.Add(tag);
                     db.Assignments.Add(assign);
-                }else
-                {
-                    int count = Tags.Count();
-                   for (int i=0; i < count; i++){
+
+
                      
                     }
-                }
+                    else
+                {
+                        assign.Tag = db.Tags.ElementAt(i);
+                        assign.TagId = db.Tags.ElementAt(i).Id;
+
+                        db.Tags.ElementAt(i).Assignments.Add(assign);
+                        AssigC.AddFirst(assign);
+
+                        db.Assignments.Add(assign);
+
+
+                     
+                    }
+            
+           
+       }
             }
-            db.Courses.Add(cc);
+            cou.Assignments = AssigC;
+            db.Courses.Add(cou);
+            db.SaveChanges();
             return View("CourseContent");
         }
 
