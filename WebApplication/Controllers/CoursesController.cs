@@ -133,6 +133,10 @@ namespace WebApplication.Controllers
             public string Description { get; set; }
          
         }
+        public ActionResult AddCourse()
+        {
+            return View("AddCourse");
+        }
         [HttpPost]
         public ActionResult AddCourse(WebApplication.Models.Course cc, string Tags)
         {
@@ -141,52 +145,60 @@ namespace WebApplication.Controllers
             cou.Title = cc.Title;
             char delimiter = ',';
             string[] tg = Tags.Split(delimiter);
-            LinkedList<Assignment> AssigT = new LinkedList<Assignment>();
-            LinkedList<Assignment> AssigC = new LinkedList<Assignment>();
-
-
            
-        int count = db.Tags.Count();
-
+            LinkedList<Assignment> AssigC = new LinkedList<Assignment>();
+            
+            
+           
+        
+            
             foreach (var substring in tg)
             {   WebApplication.Models.Assignment assign = new WebApplication.Models.Assignment();
-                    assign.CourseId = cc.Id;
-                    assign.Course = cc;
-                
-             for (int i=0; i < count; i++){
+                    assign.CourseId = cou.Id;
+                    assign.Course = cou;
+                int count = db.Tags.Count();
+             for (int i=0; i <= count; i++){
                    
-                if (db.Tags.ElementAt(i).Name==substring){
-                 
-
-                    WebApplication.Models.Tag tag= new WebApplication.Models.Tag();
-                    tag.Name = substring;
-                    assign.Tag = tag;
-                    assign.TagId = tag.Id;
-
-                    AssigT.AddFirst(assign);
-                    AssigC.AddFirst(assign);
-
-                    tag.Assignments.Add(assign);
-                    
-
-                    db.Tags.Add(tag);
-                    db.Assignments.Add(assign);
+                if (count!=0&&(db.Tags.Find(i+1).Name==substring)){
 
 
-                     
-                    }
-                    else
-                {
-                        assign.Tag = db.Tags.ElementAt(i);
-                        assign.TagId = db.Tags.ElementAt(i).Id;
+                        assign.Tag = db.Tags.Find(i);
+                        assign.TagId = db.Tags.Find(i).Id;
 
-                        db.Tags.ElementAt(i).Assignments.Add(assign);
+                        db.Tags.Find(i).Assignments.Add(assign);
+                        db.SaveChanges();
                         AssigC.AddFirst(assign);
 
                         db.Assignments.Add(assign);
+                        db.SaveChanges();
+
+
+
+                    }
+                    else if (i==count)
+                {
+
+                        WebApplication.Models.Tag tag = new WebApplication.Models.Tag();
+                        tag.Name = substring;
+                        assign.Tag = tag;
+                        assign.TagId = tag.Id;
+
+
+                        AssigC.AddFirst(assign);
+                        LinkedList<Assignment> AssignT = new LinkedList<Assignment>();
+                        tag.Assignments = AssignT;
+
+                        tag.Assignments.Add(assign);
+
+
+                        db.Tags.Add(tag);
+                        db.SaveChanges();
+                        db.Assignments.Add(assign);
+                        db.SaveChanges();
 
 
                      
+
                     }
             
            
@@ -195,7 +207,7 @@ namespace WebApplication.Controllers
             cou.Assignments = AssigC;
             db.Courses.Add(cou);
             db.SaveChanges();
-            return View("CourseContent");
+            return RedirectToAction("Details", cou.Id);
         }
 
         
