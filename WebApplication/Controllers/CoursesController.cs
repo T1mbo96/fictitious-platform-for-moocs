@@ -147,32 +147,38 @@ namespace WebApplication.Controllers
             string[] tg = Tags.Split(delimiter);
            
             LinkedList<Assignment> AssigC = new LinkedList<Assignment>();
-            
-            
-           
-        
+            List<Tag> AllTags = new List<Tag>();
+
+            int count = 0;
+         Tag Element = new Tag();
             
             foreach (var substring in tg)
             {   WebApplication.Models.Assignment assign = new WebApplication.Models.Assignment();
-                    assign.CourseId = cou.Id;
-                    assign.Course = cou;
-                int count = db.Tags.Count();
-             for (int i=0; i <= count; i++){
                    
-                if (count!=0&&(db.Tags.Find(i+1).Name==substring)){
+                    assign.Course = cou;
+                assign.CourseId = cou.Id;
+                AllTags = db.Tags.ToList();
+              
+                count = db.Tags.Count();
+             for (int i=0; i <= count; i++){
 
+                    if (count != 0 && i!=count) { 
+                    Element = AllTags.ElementAt(i);}
 
-                        assign.Tag = db.Tags.Find(i);
-                        assign.TagId = db.Tags.Find(i).Id;
+                if (i!=count&&count!=0&&(Element.Name==substring)){
+                    
 
-                        db.Tags.Find(i).Assignments.Add(assign);
-                        db.SaveChanges();
+                       assign.Tag  = Element;
+                        assign.TagId = Element.Id;
+
+                        db.Tags.Find(Element.Id).Assignments.Add(assign);
+                      
                         AssigC.AddFirst(assign);
 
                         db.Assignments.Add(assign);
                         db.SaveChanges();
 
-
+                        break;
 
                     }
                     else if (i==count)
@@ -192,7 +198,7 @@ namespace WebApplication.Controllers
 
 
                         db.Tags.Add(tag);
-                        db.SaveChanges();
+                 
                         db.Assignments.Add(assign);
                         db.SaveChanges();
 
@@ -204,10 +210,12 @@ namespace WebApplication.Controllers
            
        }
             }
-            cou.Assignments = AssigC;
-            db.Courses.Add(cou);
+            
+            
+            
+
             db.SaveChanges();
-            return RedirectToAction("Details", cou.Id);
+            return RedirectToAction("Index");
         }
 
         
