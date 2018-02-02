@@ -8,7 +8,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models;
-using System.Collections.Generic;
 
 
 namespace WebApplication.Controllers
@@ -145,34 +144,39 @@ namespace WebApplication.Controllers
             cou.Title = cc.Title;
             char delimiter = ',';
             string[] tg = Tags.Split(delimiter);
-           
+
             LinkedList<Assignment> AssigC = new LinkedList<Assignment>();
             List<Tag> AllTags = new List<Tag>();
 
             int count = 0;
-         Tag Element = new Tag();
-            
+            Tag Element = new Tag();
+
             foreach (var substring in tg)
-            {   WebApplication.Models.Assignment assign = new WebApplication.Models.Assignment();
-                   
-                    assign.Course = cou;
+            {
+                WebApplication.Models.Assignment assign = new WebApplication.Models.Assignment();
+
+                assign.Course = cou;
                 assign.CourseId = cou.Id;
                 AllTags = db.Tags.ToList();
-              
+
                 count = db.Tags.Count();
-             for (int i=0; i <= count; i++){
+                for (int i = 0; i <= count; i++)
+                {
 
-                    if (count != 0 && i!=count) { 
-                    Element = AllTags.ElementAt(i);}
+                    if (count != 0 && i != count)
+                    {
+                        Element = AllTags.ElementAt(i);
+                    }
 
-                if (i!=count&&count!=0&&(Element.Name==substring)){
-                    
+                    if (i != count && count != 0 && (Element.Name == substring))
+                    {
 
-                       assign.Tag  = Element;
+
+                        assign.Tag = Element;
                         assign.TagId = Element.Id;
 
                         db.Tags.Find(Element.Id).Assignments.Add(assign);
-                      
+
                         AssigC.AddFirst(assign);
 
                         db.Assignments.Add(assign);
@@ -181,8 +185,8 @@ namespace WebApplication.Controllers
                         break;
 
                     }
-                    else if (i==count)
-                {
+                    else if (i == count)
+                    {
 
                         WebApplication.Models.Tag tag = new WebApplication.Models.Tag();
                         tag.Name = substring;
@@ -198,27 +202,27 @@ namespace WebApplication.Controllers
 
 
                         db.Tags.Add(tag);
-                 
+
                         db.Assignments.Add(assign);
                         db.SaveChanges();
 
 
-                     
+
 
                     }
-            
-           
-       }
+
+
+                }
             }
-            
-            
-            
+
+
+
 
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        
+
 
         public ActionResult MyCourses()
         {

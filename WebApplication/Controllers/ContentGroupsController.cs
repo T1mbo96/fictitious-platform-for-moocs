@@ -40,7 +40,6 @@ namespace WebApplication.Controllers
         public ActionResult Create()
         {
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Title");
-            ViewBag.ContentId = new SelectList(db.ContentElements, "Id", "Description");
             return View();
         }
 
@@ -59,7 +58,6 @@ namespace WebApplication.Controllers
             }
 
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Title", contentGroup.CourseId);
-            ViewBag.TagId = new SelectList(db.ContentElements, "Id", "Description", contentGroup.ContentId);
             return View(contentGroup);
         }
 

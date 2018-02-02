@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication.Models.ContentGroupViewModel>
+﻿@model IEnumerable<WebApplication.Models.ContentGroup>
 
 @{
     ViewBag.Title = "Details des Kurses";
@@ -22,7 +22,7 @@
                 <h4 class="mb-0">
                     <button class="btn btn-link" data-toggle="collapse" data-target="#@counter" aria-expanded="false" aria-controls="@counter">
                         <h3>
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.DisplayFor(modelItem => item.Header)
                         </h3>
                     </button>
                 </h4>
@@ -61,7 +61,7 @@
                                 }
                                 else if (sndItem.Type.Name == "Video")
                                 {
-                                    <iframe width="640" height="385" src="@sndItem.URL"></iframe>
+                                    <iframe width="640" height="385" src="@sndItem.URL">@sndItem.URL</iframe>
                                 }
                             </td>
                         </tr>

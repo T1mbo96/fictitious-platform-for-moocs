@@ -100,8 +100,7 @@ namespace WebApplication.Models
         public string Header { get; set; }
         public int CourseId { get; set; }
         public virtual Course Course { get; set; }
-        public int ContentId { get; set; }
-        public virtual ContentElement ContentElement { get; set; }
+        public virtual ICollection<ContentElement> ContentElements { get; set; }
     }
 
     public class ContentElement
@@ -113,7 +112,8 @@ namespace WebApplication.Models
         public int Order { get; set; }
         public int TypeId { get; set; }
         public virtual WebApplication.Models.Type Type { get; set; }
-        public virtual ICollection<ContentGroup> ContentGroups { get; set; }
+        public int ContentGroupId { get; set; }
+        public virtual ContentGroup ContentGroup { get; set; }
     }
 
     public class Type

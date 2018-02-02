@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models;
 
@@ -47,8 +46,8 @@ namespace WebApplication.Controllers
 
                 enrollAuthenticatedUser(course);
 
-                List<ContentGroupViewModel> groupedContentGroups = groupContentGroupElements((int) id);
-                List<ContentGroupViewModel> sortedGroupedContentGroups = sortContentGroupsAndElements(groupedContentGroups);
+                List<ContentGroup> groupedContentGroups = groupContentGroups((int) id);
+                List<ContentGroup> sortedGroupedContentGroups = sortContentGroupsAndElements(groupedContentGroups);
 
                 ViewBag.SearchString = searchString;
                 ViewBag.CourseName = course.Title;
@@ -58,40 +57,19 @@ namespace WebApplication.Controllers
         }
 
         // Gruppiert alle ContentGroups eines Course und alle ContentElements der jeweiligen ContentGroup.
-        public List<ContentGroupViewModel> groupContentGroupElements(int id)
+        public List<ContentGroup> groupContentGroups(int id)
         {
-            List<ContentGroup> contentGroups = db.ContentGroups.Where(contentGroup => contentGroup.CourseId == id).ToList();
-            List<ContentGroupViewModel> groupedContentGroups = new List<ContentGroupViewModel>();
-
-            while (contentGroups.Any())
-            {
-                ContentGroupViewModel cgvw = new ContentGroupViewModel();
-                cgvw.Name = contentGroups.First().Header;
-                cgvw.Order = contentGroups.First().Order;
-
-                foreach (ContentGroup cg in contentGroups.Reverse<ContentGroup>())
-                {
-                    if (cgvw.Name == cg.Header)
-                    {
-                        cgvw.ContentElements.Add(db.ContentElements.Find(cg.ContentId));
-                        contentGroups.Remove(cg);
-                    }
-                }
-
-                groupedContentGroups.Add(cgvw);
-            }
-
-            return groupedContentGroups;
+            return db.ContentGroups.Where(contentGroup => contentGroup.CourseId == id).ToList();
         }
 
         // Behelfsmethode zur richtigen Sortierung der ContentGroups und deren ContentElements.
-        public List<ContentGroupViewModel> sortContentGroupsAndElements(List<ContentGroupViewModel> groupedContentGroups)
+        public List<ContentGroup> sortContentGroupsAndElements(List<ContentGroup> groupedContentGroups)
         {
             groupedContentGroups = groupedContentGroups.OrderBy(order => order.Order).ToList();
 
-            foreach (ContentGroupViewModel cgvw in groupedContentGroups)
+            foreach (ContentGroup cg in groupedContentGroups)
             {
-                cgvw.ContentElements = cgvw.ContentElements.OrderBy(order => order.Order).ToList();
+                cg.ContentElements = cg.ContentElements.OrderBy(order => order.Order).ToList();
             }
 
             return groupedContentGroups;

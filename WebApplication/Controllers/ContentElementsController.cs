@@ -40,6 +40,7 @@ namespace WebApplication.Controllers
         public ActionResult Create()
         {
             ViewBag.TypeId = new SelectList(db.Types, "Id", "Name");
+            ViewBag.ContentGroupId = new SelectList(db.ContentGroups, "Id", "Header");
             return View();
         }
 
@@ -48,7 +49,7 @@ namespace WebApplication.Controllers
         // finden Sie unter http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,URL,Order,TypeId")] ContentElement contentElement)
+        public ActionResult Create([Bind(Include = "Id,Description,URL,Order,TypeId,ContentGroupId")] ContentElement contentElement)
         {
             if (ModelState.IsValid)
             {
@@ -58,6 +59,7 @@ namespace WebApplication.Controllers
             }
 
             ViewBag.TypeId = new SelectList(db.Types, "Id", "Name", contentElement.TypeId);
+            ViewBag.ContentGroupId = new SelectList(db.ContentGroups, "Id", "Header", contentElement.ContentGroupId);
             return View(contentElement);
         }
 
