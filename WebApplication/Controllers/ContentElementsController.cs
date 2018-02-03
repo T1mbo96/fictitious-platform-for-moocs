@@ -84,7 +84,7 @@ namespace WebApplication.Controllers
         // finden Sie unter http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,URL,Order,TypeId")] ContentElement contentElement)
+        public ActionResult Edit([Bind(Include = "Id,Description,URL,Order,TypeId,ContentGroupId")] ContentElement contentElement)
         {
             if (ModelState.IsValid)
             {

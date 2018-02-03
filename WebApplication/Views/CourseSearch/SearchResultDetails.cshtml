@@ -30,44 +30,59 @@
         </div>
 
         <div id="@counter" class="collapse" aria-labelledby="heading+@counter" data-parent="#accordion">
-            <div class="card-body">
-                <table class="table">
-                    <tr>
-                        <th>
-                            Beschreibung
-                        </th>
-                        <th>
-                            Inhalt
-                        </th>
-                    </tr>
-                    @foreach (var sndItem in item.ContentElements)
-                    {
+            @if (!item.ContentElements.Any())
+            {
+                <h3>
+                    Kein Inhalt vorhanden!
+                </h3>
+            }
+            else
+            {
+                <div class="card-body">
+                    <table class="table">
                         <tr>
-                            <td>
-                                <h3>
-                                    @Html.DisplayFor(modelItem => sndItem.Description)
-                                </h3>
-                            </td>
-                            <td>
-                                @if (sndItem.Type.Name == "Text")
-                                {
-                                    <h3>
-                                        @Html.DisplayFor(modelItem => sndItem.URL)
-                                    </h3>
-                                }
-                                else if (sndItem.Type.Name == "PDF")
-                                {
-                                    <a href="@sndItem.URL"><span class="glyphicon glyphicon-file"></span></a>
-                                }
-                                else if (sndItem.Type.Name == "Video")
-                                {
-                                    <iframe width="640" height="385" src="@sndItem.URL">@sndItem.URL</iframe>
-                                }
-                            </td>
+                            <th>
+                                Beschreibung
+                            </th>
+                            <th>
+                                Inhalt
+                            </th>
                         </tr>
-                    }
-                </table>
-            </div>
+                        @foreach (var sndItem in item.ContentElements)
+                    {
+                            <tr>
+                                <td>
+                                    <h3>
+                                        @Html.DisplayFor(modelItem => sndItem.Description)
+                                    </h3>
+                                </td>
+                                <td>
+                                    @if (sndItem.Type.Name == "Text")
+                                    {
+                                        <h3>
+                                            @Html.DisplayFor(modelItem => sndItem.URL)
+                                        </h3>
+                                    }
+                                    else if (sndItem.Type.Name == "PDF")
+                                    {
+                                        <a href="@sndItem.URL"><span class="glyphicon glyphicon-file"></span></a>
+                                    }
+                                    else if (sndItem.Type.Name == "Video")
+                                    {
+                                        <iframe width="640" height="385" src="@sndItem.URL" frameborder="0" allowfullscreen>@sndItem.URL</iframe>
+                                    }
+                                    else
+                                    {
+                                        <h3>
+                                            @Html.DisplayFor(modelItem => sndItem.URL)
+                                        </h3>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
         </div>
 
         counter = counter + 1;

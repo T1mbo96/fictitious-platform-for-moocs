@@ -48,7 +48,7 @@ namespace WebApplication.Controllers
         // finden Sie unter http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Order,Header,CourseId,ContentId")] ContentGroup contentGroup)
+        public ActionResult Create([Bind(Include = "Id,Order,Header,CourseId")] ContentGroup contentGroup)
         {
             if (ModelState.IsValid)
             {
