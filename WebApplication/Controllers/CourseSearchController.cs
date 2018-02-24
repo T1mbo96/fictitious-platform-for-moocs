@@ -47,6 +47,7 @@ namespace WebApplication.Controllers
 
                 ViewBag.SearchString = searchString;
                 ViewBag.CourseName = course.Title;
+                ViewBag.EnrId = getEnrollmentId(course);
 
                 return View("~/Views/MyCourses/MyCoursesDetails.cshtml", sortedGroupedContentGroups);
             }
@@ -59,6 +60,7 @@ namespace WebApplication.Controllers
 
                 ViewBag.SearchString = searchString;
                 ViewBag.CourseName = course.Title;
+                ViewBag.EnrId = getEnrollmentId(course);
 
                 return View(sortedGroupedContentGroups);
             }
@@ -107,5 +109,51 @@ namespace WebApplication.Controllers
                 db.SaveChanges();
             }
         }
+
+        public int getEnrollmentId(Course course)
+        {
+            var userId = User.Identity.GetUserId();
+
+            return db.Enrollments.Where(enrollment => enrollment.ApplicationUser.Id == userId && enrollment.CourseId == course.Id).ToArray()[0].Id;
+        }
+
+        public JsonResult SetRating(int enrId, int rating)
+        {
+            setRatingForEnrollment(enrId, rating);
+            return Json(averageRating(enrId), JsonRequestBehavior.AllowGet);
+        }
+
+        public void setRatingForEnrollment(int enrId, int rating)
+        {
+            var enr = db.Enrollments.Find(enrId);
+
+            enr.Rating = (Rating) rating;
+
+            db.SaveChanges();
+        }
+
+        public double averageRating(int enrId)
+        {
+            Enrollment enr = db.Enrollments.Find(enrId);
+
+            var ratingList = db.Enrollments.Where(enrollment => enrollment.CourseId == enr.CourseId && ((int) enrollment.Rating) != ((int) Rating.None)).ToList();
+
+            double sumRating = 0.0;
+            int counter = 0;
+
+            foreach(var item in ratingList)
+            {
+                sumRating += (double) item.Rating;
+                counter++;
+            }
+
+            return (sumRating / counter);
+        }
+
+        public JsonResult GetTags(String text)
+        {
+            return Json(db.Tags.Where(tag => tag.Name.StartsWith(text)).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

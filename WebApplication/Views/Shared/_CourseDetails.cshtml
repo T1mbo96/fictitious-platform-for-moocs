@@ -83,3 +83,38 @@
         counter = counter + 1;
     }
 </div>
+
+<script>
+    var rating = 0;
+
+    function setRating(ratingFromUser) {
+        rating = ratingFromUser;
+    }
+
+    function rate() {
+        $.getJSON("@Url.Action("SetRating", "CourseSearch")", 
+            {
+                enrId: @ViewBag.EnrId, 
+                rating: rating
+            }, 
+            function (data) 
+            {
+                var json = JSON.parse(data);
+                $("#rating").html(json);
+            }
+        )
+    }
+</script>
+
+<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="btn-group mr-2" role="group" aria-label="First group">
+        <button onclick="setRating(1)" type="button" class="btn btn-secondary">1</button>
+        <button onclick="setRating(2)" type="button" class="btn btn-secondary">2</button>
+        <button onclick="setRating(3)" type="button" class="btn btn-secondary">3</button>
+        <button onclick="setRating(4)" type="button" class="btn btn-secondary">4</button>
+        <button onclick="setRating(5)" type="button" class="btn btn-secondary">5</button>
+     </div>
+</div>
+
+<button onclick="rate()" id="thisButton">Bewerten</button>
+<span id="rating"></span>
