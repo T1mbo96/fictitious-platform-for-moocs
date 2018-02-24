@@ -178,6 +178,7 @@
     <Compile Include="Controllers\EnrollmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MyCoursesController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\TypesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -291,9 +292,11 @@
     <Content Include="Views\Types\Index.cshtml" />
     <Content Include="Views\CourseSearch\SearchCourse.cshtml" />
     <Content Include="Views\Courses\AddCourse.cshtml" />
-    <Content Include="Views\Courses\MyCourses.cshtml" />
     <Content Include="Views\CourseSearch\SearchResult.cshtml" />
     <Content Include="Views\CourseSearch\SearchResultDetails.cshtml" />
+    <Content Include="Views\MyCourses\MyCourses.cshtml" />
+    <Content Include="Views\Shared\_CourseDetails.cshtml" />
+    <Content Include="Views\MyCourses\MyCoursesDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

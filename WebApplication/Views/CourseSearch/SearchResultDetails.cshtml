@@ -1,91 +1,9 @@
-﻿@model IEnumerable<WebApplication.Models.ContentGroup>
-
-@{
-    ViewBag.Title = "Details des Kurses";
-
-    int counter = 1;
-}
-<ol class="breadcrumb">
+﻿<ol class="breadcrumb">
     <li><a href="@Url.Action("Index", "Home")">Startseite</a></li>
     <li><a href="@Url.Action("SearchCourse", "CourseSearch")">Kurs suchen</a></li>
     <li><a href="@Url.Action("SearchResult", "CourseSearch", new { searchString = ViewBag.SearchString })">Suchergebnis</a></li>
     <li class="active">Details</li>
 </ol>
-<h2>Details über den Kurs @ViewBag.CourseName</h2>
 
-<div id="accordion">
-    @foreach (var item in Model)
-    {
-
-        <div class="card">
-            <div class="card-header" id="heading+@counter">
-                <h4 class="mb-0">
-                    <button class="btn btn-link" data-toggle="collapse" data-target="#@counter" aria-expanded="false" aria-controls="@counter">
-                        <h3>
-                            @Html.DisplayFor(modelItem => item.Header)
-                        </h3>
-                    </button>
-                </h4>
-            </div>
-        </div>
-
-        <div id="@counter" class="collapse" aria-labelledby="heading+@counter" data-parent="#accordion">
-            @if (!item.ContentElements.Any())
-            {
-                <h3>
-                    Kein Inhalt vorhanden!
-                </h3>
-            }
-            else
-            {
-                <div class="card-body">
-                    <table class="table">
-                        <tr>
-                            <th>
-                                Beschreibung
-                            </th>
-                            <th>
-                                Inhalt
-                            </th>
-                        </tr>
-                        @foreach (var sndItem in item.ContentElements)
-                    {
-                            <tr>
-                                <td>
-                                    <h3>
-                                        @Html.DisplayFor(modelItem => sndItem.Description)
-                                    </h3>
-                                </td>
-                                <td>
-                                    @if (sndItem.Type.Name == "Text")
-                                    {
-                                        <h3>
-                                            @Html.DisplayFor(modelItem => sndItem.URL)
-                                        </h3>
-                                    }
-                                    else if (sndItem.Type.Name == "PDF")
-                                    {
-                                        <a href="@sndItem.URL"><span class="glyphicon glyphicon-file"></span></a>
-                                    }
-                                    else if (sndItem.Type.Name == "Video")
-                                    {
-                                        <iframe width="640" height="385" src="@sndItem.URL" frameborder="0" allowfullscreen>@sndItem.URL</iframe>
-                                    }
-                                    else
-                                    {
-                                        <h3>
-                                            @Html.DisplayFor(modelItem => sndItem.URL)
-                                        </h3>
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                </div>
-            }
-        </div>
-
-        counter = counter + 1;
-    }
-</div>
+@RenderPage("~/Views/Shared/_CourseDetails.cshtml");
 

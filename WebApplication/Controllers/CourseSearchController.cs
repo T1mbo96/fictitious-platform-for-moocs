@@ -34,26 +34,40 @@ namespace WebApplication.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult SearchResultDetails(int? id, string searchString)
+        public ActionResult SearchResultDetails(int? id, string searchString, bool b)
         {
             if (id == null)
             {
                 return View("SearchCourse");
             }
+            else if (b == true)
+            {
+                Course course = db.Courses.Find(id);
+                List<ContentGroup> sortedGroupedContentGroups = processContentGroups((int)id);
+
+                ViewBag.SearchString = searchString;
+                ViewBag.CourseName = course.Title;
+
+                return View("~/Views/MyCourses/MyCoursesDetails.cshtml", sortedGroupedContentGroups);
+            }
             else
             {
                 Course course = db.Courses.Find(id);
+                List<ContentGroup> sortedGroupedContentGroups = processContentGroups((int)id);
 
                 enrollAuthenticatedUser(course);
-
-                List<ContentGroup> groupedContentGroups = groupContentGroups((int) id);
-                List<ContentGroup> sortedGroupedContentGroups = sortContentGroupsAndElements(groupedContentGroups);
 
                 ViewBag.SearchString = searchString;
                 ViewBag.CourseName = course.Title;
 
                 return View(sortedGroupedContentGroups);
             }
+        }
+
+        // Stellt die fertig sortierte Liste der ContentGroups für die Weiterverarbeitung zusammen.
+        private List<ContentGroup> processContentGroups(int id)
+        {
+            return sortContentGroupsAndElements(groupContentGroups((int)id));
         }
 
         // Gruppiert alle ContentGroups eines Course und alle ContentElements der jeweiligen ContentGroup.
