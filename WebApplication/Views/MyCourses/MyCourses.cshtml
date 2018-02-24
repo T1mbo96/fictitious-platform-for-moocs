@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebApplication.Models.Course>
+
+@{
+    ViewBag.Title = "Meine Kurse";
+}
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Startseite</a></li>
+    <li class="active">Meine Kurse</li>
+</ol>
+
+@if (Model.Count() == 0)
+{
+    <b>Sie sind noch in keinem Kurs eingeschrieben oder haben noch keinen Kurs erstellt!</b>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "SearchResultDetails", "CourseSearch", new { id = item.Id, searchString = "", b = true }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+

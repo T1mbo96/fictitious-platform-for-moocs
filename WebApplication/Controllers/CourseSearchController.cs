@@ -34,26 +34,42 @@ namespace WebApplication.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult SearchResultDetails(int? id, string searchString)
+        public ActionResult SearchResultDetails(int? id, string searchString, bool b)
         {
             if (id == null)
             {
                 return View("SearchCourse");
             }
-            else
+            else if (b == true)
             {
                 Course course = db.Courses.Find(id);
-
-                enrollAuthenticatedUser(course);
-
-                List<ContentGroup> groupedContentGroups = groupContentGroups((int) id);
-                List<ContentGroup> sortedGroupedContentGroups = sortContentGroupsAndElements(groupedContentGroups);
+                List<ContentGroup> sortedGroupedContentGroups = processContentGroups((int)id);
 
                 ViewBag.SearchString = searchString;
                 ViewBag.CourseName = course.Title;
+                ViewBag.EnrId = getEnrollmentId(course);
+
+                return View("~/Views/MyCourses/MyCoursesDetails.cshtml", sortedGroupedContentGroups);
+            }
+            else
+            {
+                Course course = db.Courses.Find(id);
+                List<ContentGroup> sortedGroupedContentGroups = processContentGroups((int)id);
+
+                enrollAuthenticatedUser(course);
+
+                ViewBag.SearchString = searchString;
+                ViewBag.CourseName = course.Title;
+                ViewBag.EnrId = getEnrollmentId(course);
 
                 return View(sortedGroupedContentGroups);
             }
+        }
+
+        // Stellt die fertig sortierte Liste der ContentGroups für die Weiterverarbeitung zusammen.
+        private List<ContentGroup> processContentGroups(int id)
+        {
+            return sortContentGroupsAndElements(groupContentGroups((int)id));
         }
 
         // Gruppiert alle ContentGroups eines Course und alle ContentElements der jeweiligen ContentGroup.
@@ -93,5 +109,51 @@ namespace WebApplication.Controllers
                 db.SaveChanges();
             }
         }
+
+        public int getEnrollmentId(Course course)
+        {
+            var userId = User.Identity.GetUserId();
+
+            return db.Enrollments.Where(enrollment => enrollment.ApplicationUser.Id == userId && enrollment.CourseId == course.Id).ToArray()[0].Id;
+        }
+
+        public JsonResult SetRating(int enrId, int rating)
+        {
+            setRatingForEnrollment(enrId, rating);
+            return Json(averageRating(enrId), JsonRequestBehavior.AllowGet);
+        }
+
+        public void setRatingForEnrollment(int enrId, int rating)
+        {
+            var enr = db.Enrollments.Find(enrId);
+
+            enr.Rating = (Rating) rating;
+
+            db.SaveChanges();
+        }
+
+        public double averageRating(int enrId)
+        {
+            Enrollment enr = db.Enrollments.Find(enrId);
+
+            var ratingList = db.Enrollments.Where(enrollment => enrollment.CourseId == enr.CourseId && ((int) enrollment.Rating) != ((int) Rating.None)).ToList();
+
+            double sumRating = 0.0;
+            int counter = 0;
+
+            foreach(var item in ratingList)
+            {
+                sumRating += (double) item.Rating;
+                counter++;
+            }
+
+            return (sumRating / counter);
+        }
+
+        public JsonResult GetTags(String text)
+        {
+            return Json(db.Tags.Where(tag => tag.Name.StartsWith(text)).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

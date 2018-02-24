@@ -221,12 +221,5 @@ namespace WebApplication.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-
-
-        public ActionResult MyCourses()
-        {
-            return View();
-        }
     }
 }

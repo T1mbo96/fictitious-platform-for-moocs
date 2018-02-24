@@ -11,7 +11,39 @@
 </div>
 <form class="search-form" action="@Url.Action("SearchResult", "CourseSearch")" method="get">
     <div id="center-align">
-        <input type="text" class="search" placeholder="Suchen..." name="searchString">
-        <input type="submit" class="button" value="Suchen" id="SearchResult">
-    </div>
+            <input type="text" class="search" placeholder="Suchen..." name="searchString" id="search">
+            <input type="submit" class="button" value="Suchen" id="SearchResult">
+        </div>
 </form>
+
+@section scripts {
+    <link rel="stylesheet" href="~/Content/kendo/2018.1.221/kendo.common-bootstrap.core.min.css" />
+    <link rel="stylesheet" href="~/Content/kendo/2018.1.221/kendo.bootstrap.min.css" />
+
+    <script src="~/Scripts/kendo/2018.1.221/kendo.ui.core.min.js"></script>
+    <script src="~/Scripts/kendo/2018.1.221/cultures/kendo.culture.de-DE.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#search").kendoAutoComplete({
+                dataTextField: "Name",
+                filter: "startswith",
+                minLength: 1,
+                dataSource: {
+                    type: "json",
+                    serverFiltering: true,
+                    transport: {
+                        read: {
+                            url: "@Url.Action("GetTags", "CourseSearch")",
+                            data: {
+                                text: function () {
+                                    return $("#search").val()
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}

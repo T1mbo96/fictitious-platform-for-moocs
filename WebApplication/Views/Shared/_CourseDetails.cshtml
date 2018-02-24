@@ -1,0 +1,120 @@
+﻿@model IEnumerable<WebApplication.Models.ContentGroup>
+
+@{
+    ViewBag.Title = "Details des Kurses";
+
+    int counter = 1;
+}
+
+<h2>Details über den Kurs @ViewBag.CourseName</h2>
+
+<div id="accordion">
+    @foreach (var item in Model)
+    {
+
+        <div class="card">
+            <div class="card-header" id="heading+@counter">
+                <h4 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#@counter" aria-expanded="false" aria-controls="@counter">
+                        <h3>
+                            @Html.DisplayFor(modelItem => item.Header)
+                        </h3>
+                    </button>
+                </h4>
+            </div>
+        </div>
+
+        <div id="@counter" class="collapse" aria-labelledby="heading+@counter" data-parent="#accordion">
+            @if (!item.ContentElements.Any())
+            {
+                <h3>
+                    Kein Inhalt vorhanden!
+                </h3>
+            }
+            else
+            {
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Beschreibung
+                            </th>
+                            <th>
+                                Inhalt
+                            </th>
+                        </tr>
+                        @foreach (var sndItem in item.ContentElements)
+                    {
+                            <tr>
+                                <td>
+                                    <h3>
+                                        @Html.DisplayFor(modelItem => sndItem.Description)
+                                    </h3>
+                                </td>
+                                <td>
+                                    @if (sndItem.Type.Name == "Text")
+                                    {
+                                        <h3>
+                                            @Html.DisplayFor(modelItem => sndItem.URL)
+                                        </h3>
+                                    }
+                                    else if (sndItem.Type.Name == "PDF")
+                                    {
+                                        <a href="@sndItem.URL"><span class="glyphicon glyphicon-file"></span></a>
+                                    }
+                                    else if (sndItem.Type.Name == "Video")
+                                    {
+                                        <iframe width="640" height="385" src="@sndItem.URL" frameborder="0" allowfullscreen>@sndItem.URL</iframe>
+                                    }
+                                    else
+                                    {
+                                        <h3>
+                                            @Html.DisplayFor(modelItem => sndItem.URL)
+                                        </h3>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+
+        counter = counter + 1;
+    }
+</div>
+
+<script>
+    var rating = 0;
+
+    function setRating(ratingFromUser) {
+        rating = ratingFromUser;
+    }
+
+    function rate() {
+        $.getJSON("@Url.Action("SetRating", "CourseSearch")", 
+            {
+                enrId: @ViewBag.EnrId, 
+                rating: rating
+            }, 
+            function (data) 
+            {
+                var json = JSON.parse(data);
+                $("#rating").html(json);
+            }
+        )
+    }
+</script>
+
+<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="btn-group mr-2" role="group" aria-label="First group">
+        <button onclick="setRating(1)" type="button" class="btn btn-secondary">1</button>
+        <button onclick="setRating(2)" type="button" class="btn btn-secondary">2</button>
+        <button onclick="setRating(3)" type="button" class="btn btn-secondary">3</button>
+        <button onclick="setRating(4)" type="button" class="btn btn-secondary">4</button>
+        <button onclick="setRating(5)" type="button" class="btn btn-secondary">5</button>
+     </div>
+</div>
+
+<button onclick="rate()" id="thisButton">Bewerten</button>
+<span id="rating"></span>

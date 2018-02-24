@@ -35,11 +35,13 @@ else
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "SearchResultDetails", new { id = item.Id, searchString = ViewBag.SearchString })
+                    @Html.ActionLink("Details", "SearchResultDetails", new { id = item.Id, searchString = ViewBag.SearchString, b = false })
                 </td>
             </tr>
         }
 
     </table>
 }
+
+
 
