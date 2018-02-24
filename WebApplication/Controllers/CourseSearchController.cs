@@ -45,6 +45,14 @@ namespace WebApplication.Controllers
                 Course course = db.Courses.Find(id);
                 List<ContentGroup> sortedGroupedContentGroups = processContentGroups((int)id);
 
+                if (checkIfRated((int) id))
+                {
+                    ViewBag.AlreadyRated = true;
+                } else
+                {
+                    ViewBag.AlreadyRated = false;
+                }
+
                 ViewBag.SearchString = searchString;
                 ViewBag.CourseName = course.Title;
                 ViewBag.EnrId = getEnrollmentId(course);
@@ -58,12 +66,33 @@ namespace WebApplication.Controllers
 
                 enrollAuthenticatedUser(course);
 
+                if (checkIfRated((int)id))
+                {
+                    ViewBag.AlreadyRated = true;
+                }
+                else
+                {
+                    ViewBag.AlreadyRated = false;
+                }
+
                 ViewBag.SearchString = searchString;
                 ViewBag.CourseName = course.Title;
                 ViewBag.EnrId = getEnrollmentId(course);
 
                 return View(sortedGroupedContentGroups);
             }
+        }
+
+        private bool checkIfRated(int id)
+        {
+            bool rated = false;
+            var userId = User.Identity.GetUserId();
+
+            if (!db.Enrollments.Where(enrollment => enrollment.ApplicationUser.Id == userId && enrollment.CourseId == id).ToList().First().Rating.Equals(Rating.None)) {
+                rated = true;
+            }
+
+            return rated;
         }
 
         // Stellt die fertig sortierte Liste der ContentGroups für die Weiterverarbeitung zusammen.
@@ -153,6 +182,19 @@ namespace WebApplication.Controllers
         public JsonResult GetTags(String text)
         {
             return Json(db.Tags.Where(tag => tag.Name.StartsWith(text)).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult AlreadyRated(int enrId)
+        {
+            var enr = db.Enrollments.Find(enrId);
+            bool alreadyRated = false;
+
+            if (enr.Rating != Rating.None)
+            {
+                alreadyRated = true;
+            }
+
+            return Json(alreadyRated, JsonRequestBehavior.AllowGet);
         }
 
     }
