@@ -1,0 +1,9 @@
+﻿<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Startseite</a></li>
+    <li><a href="@Url.Action("SearchCourse", "CourseSearch")">Kurs suchen</a></li>
+    <li><a href="@Url.Action("SearchResult", "CourseSearch", new { searchString = ViewBag.SearchString })">Suchergebnis</a></li>
+    <li class="active">Details</li>
+</ol>
+
+@RenderPage("~/Views/Shared/_CourseDetails.cshtml")
+
