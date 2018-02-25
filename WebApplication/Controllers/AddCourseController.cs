@@ -22,30 +22,19 @@ namespace WebApplication.Controllers
 
 
         [HttpPost]
-        public ActionResult AddCourse(String Title, String Description, String Tags)
+        public ActionResult AddCourse(String CourseTitle, String Description, String Tags)
         {
-            if (Title == null)
-                throw new ArgumentNullException();
-
-            if (Description == null)
-                throw new ArgumentNullException();
-
-            if (Tags == null)
-                throw new ArgumentNullException();
-
             //new added
             Course course = new Course();
 
-            course.Title = Title;
+            course.Title = CourseTitle;
             course.Description = Description;
             Microsoft.AspNet.Identity.UserManager<ApplicationUser> us = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             course.Owner = us.FindById(User.Identity.GetUserId());
 
             //old
-
             char delimiter = ',';
             string[] tg = Tags.Split(delimiter);
-            
 
             LinkedList<Assignment> AssigC = new LinkedList<Assignment>();
             List<Tag> AllTags = new List<Tag>();
@@ -73,8 +62,6 @@ namespace WebApplication.Controllers
 
                     if (i != count && count != 0 && (Element.Name == Temp))
                     {
-
-
                         assign.Tag = Element;
                         assign.TagId = Element.Id;
 
@@ -86,7 +73,6 @@ namespace WebApplication.Controllers
                         db.SaveChanges();
 
                         break;
-
                     }
                     else if (i == count)
                     {
@@ -96,37 +82,26 @@ namespace WebApplication.Controllers
                         assign.Tag = tag;
                         assign.TagId = tag.Id;
 
-
                         AssigC.AddFirst(assign);
                         LinkedList<Assignment> AssignT = new LinkedList<Assignment>();
                         tag.Assignments = AssignT;
 
                         tag.Assignments.Add(assign);
 
-
                         db.Tags.Add(tag);
 
                         db.Assignments.Add(assign);
                         db.SaveChanges();
-
-
-
-
                     }
-
-
                 }
             }
 
-
-            ViewBag.CourseTitle = Title;
+            ViewBag.CourseTitle = CourseTitle;
             ViewBag.CourseDescription = Description;
             ViewBag.CourseId = course.Id;
 
             db.SaveChanges();
             return View();
-            //"~/Views/AddCourse/AddCourse.cshtml"
-
         }
     }
 }

@@ -98,7 +98,7 @@ namespace WebApplication.Controllers
         }
 
         // Stellt die fertig sortierte Liste der ContentGroups für die Weiterverarbeitung zusammen.
-        private List<ContentGroup> processContentGroups(int id)
+        public List<ContentGroup> processContentGroups(int id)
         {
             return sortContentGroupsAndElements(groupContentGroups((int)id));
         }
@@ -183,7 +183,15 @@ namespace WebApplication.Controllers
 
         public JsonResult GetTags(String text)
         {
-            return Json(db.Tags.Where(tag => tag.Name.StartsWith(text)).ToList(), JsonRequestBehavior.AllowGet);
+            List<Tag> tags = db.Tags.Where(tag => tag.Name.StartsWith(text)).ToList();
+            List<String> names = new List<String>();
+
+            foreach (var tag in tags)
+            {
+                names.Add(tag.Name);
+            }
+
+            return Json(names, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult AlreadyRated(int enrId)

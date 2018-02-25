@@ -2,20 +2,26 @@
     ViewBag.Title = "Kurs anlegen";
 }
 
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Startseite</a></li>
+    <li class="active">Kurs anlegen</li>
+</ol>
+
 @using (Html.BeginForm("AddCourse", "AddCourse", FormMethod.Post))
 {
 
     <div class="form-group">
-        @Html.Label("Title")
-        @Html.TextBox("Title", null, new { @class = "form-control" })
+        @Html.Label("CourseTitle")
+        @Html.TextBox("CourseTitle", null, new { @class = "form-control", required = "required" })
     </div>
     <div class="form-group">
         @Html.Label("Description")
-        @Html.TextBox("Description", null, new { @class = "form-control" })
+        @Html.TextBox("Description", null, new { @class = "form-control", required = "required" })
     </div>
     <div class="form-group">
-        @Html.Label("Tags")
-        @Html.TextBox("Tags", null, new { @class = "form-control" })
+        @Html.Label("Tags ")
+        (Bestehen jeweils nur aus einem Wort / Bezeichner und werden durch ',' getrennt (z.B. 'java, c++, python'))
+        @Html.TextBox("Tags", null, new { @class = "form-control", required = "required" })
     </div>
     <button type="submit" class="btn btn-default">Weiter</button>
 

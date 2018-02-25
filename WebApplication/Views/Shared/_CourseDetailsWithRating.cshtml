@@ -1,0 +1,58 @@
+﻿@RenderPage("~/Views/Shared/_CourseDetails.cshtml")
+
+<script>
+    var rating = 0;
+
+    function setRating(ratingFromUser) {
+        rating = ratingFromUser;
+    }
+
+    function rate() {
+        $.getJSON("@Url.Action("SetRating", "CourseSearch")",
+            {
+                enrId: @ViewBag.EnrId,
+                rating: rating
+            },
+            function (data)
+            {
+                var json = JSON.parse(data);
+                if (rating != 0) {
+                    $("#rating").html(json);
+                }
+            }
+        )
+
+        if (rating != 0) {
+            document.getElementById('toCollapse').style.display = 'none'
+        }
+    }
+</script>
+
+@if (ViewBag.AlreadyRated == false)
+{
+    <div class="spacing" id="toCollapse">
+        <h3>Bitte bewerten Sie diesen Kurs:</h3>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button onclick="setRating(1)" type="button" class="btn btn-primary">1</button>
+                <button onclick="setRating(2)" type="button" class="btn btn-primary">2</button>
+                <button onclick="setRating(3)" type="button" class="btn btn-primary">3</button>
+                <button onclick="setRating(4)" type="button" class="btn btn-primary">4</button>
+                <button onclick="setRating(5)" type="button" class="btn btn-primary">5</button>
+            </div>
+        </div>
+
+        <div class="spacing">
+            <button onclick="rate()" id="thisButton" class="btn btn-primary">Bewerten</button>
+        </div>
+    </div>
+}
+
+@if (ViewBag.AlreadyRated == true)
+{
+    <span id="rating"> @ViewBag.AvgRating </span>
+}
+else
+{
+    <span id="rating"></span>
+}

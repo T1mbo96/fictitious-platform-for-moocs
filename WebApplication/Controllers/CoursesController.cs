@@ -125,13 +125,5 @@ namespace WebApplication.Controllers
             }
             base.Dispose(disposing);
         }
-
-        public class CourseCreationViewModel
-        {
-            public string Title { get; set; }
-            public string Description { get; set; }
-         
-        }
-        
     }
 }
