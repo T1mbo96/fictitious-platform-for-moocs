@@ -172,6 +172,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddCourseController.cs" />
     <Compile Include="Controllers\AssignmentsController.cs" />
     <Compile Include="Controllers\ContentElementsController.cs" />
     <Compile Include="Controllers\ContentGroupsController.cs" />
@@ -1383,13 +1384,13 @@
     <Content Include="Views\Types\Edit.cshtml" />
     <Content Include="Views\Types\Index.cshtml" />
     <Content Include="Views\CourseSearch\SearchCourse.cshtml" />
-    <Content Include="Views\Courses\AddCourse.cshtml" />
     <Content Include="Views\CourseSearch\SearchResult.cshtml" />
     <Content Include="Views\CourseSearch\SearchResultDetails.cshtml" />
-    <Content Include="Views\Courses\Edit - Kopieren.cshtml" />
     <Content Include="Views\MyCourses\MyCourses.cshtml" />
     <Content Include="Views\MyCourses\MyCoursesDetails.cshtml" />
     <Content Include="Views\Shared\_CourseDetails.cshtml" />
+    <Content Include="Views\AddCourse\Index.cshtml" />
+    <Content Include="Views\AddCourse\AddCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

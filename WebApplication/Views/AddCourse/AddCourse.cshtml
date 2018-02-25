@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Content anlegen";
+}
+@ViewBag.CourseTitle
+@ViewBag.CourseDescription
+@ViewBag.CourseId
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h1>Course @ViewBag.CourseTitle:</h1>
+
+        <button id="contentGroupButton" onclick="addContentGroup()" class="btn-primary">New Content Group</button>
+        <input />
+
+        
+        <!--ContentGroup-->
+        <div id="accordion">
+
+        </div>
+        </div>
+}
+<!--Content Group-->
+
+<button id="button + counter" onclick="addContentElement()" class="btn-primary"></button>
+<input id='header' + counter/> 
+<input id='order'" + counter+" type='number' placeholder='Order' step='1' min='1' max=" + counter + 1 +">
+<!--oder number 
+    order ist integer-->
+
+<!--Content element-->
+<input id="order" + counter + InncerCounter type="number" placeholder="Order" step="1" min="1" max=innerCounter+1>
+
+<script>
+
+    counter = 0
+    function addContentGroup() {
+        
+        var html = "<div class='card'> <div class='card-header' id='heading" + counter + "'> <h4 class='mb-0'> <button class='btn btn-link' data-toggle='collapse' data-target='#" + counter + "' aria-expanded='false' aria-controls='" + counter + "'> <h3> ContentGroup " + counter + "</h3> </button> </h4> </div> </div> <div id=" + counter + " class='collapse' aria-labelledby='heading" + counter + "' data-parent='#accordion'>  <div id='accordion" + counter + "'class='card-body'> <input id='header'" + counter + "/> <input id='order'" + counter + " type='number' placeholder='Order' step='1' min='1' max=" + counter + 1 + "> <button id='button + counter' onclick='addContentElement(" + counter + ")' class='btn-primary'></button> </div> </div> </div>"
+
+
+
+        $("#accordion").append(html)
+        counter++
+    }
+
+
+    innerCounter = 0
+    function addContentElement(counter) {
+
+        var html = "<h1>Hallo</h1>" + counter
+            
+            
+            
+        $("#accordion" + counter).append(html)
+        innerCounter++
+    }
+    
+    
+
+
+
+
+</script>    
