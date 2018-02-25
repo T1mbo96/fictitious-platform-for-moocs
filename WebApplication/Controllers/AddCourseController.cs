@@ -31,6 +31,15 @@ namespace WebApplication.Controllers
             course.Description = Description;
             Microsoft.AspNet.Identity.UserManager<ApplicationUser> us = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             course.Owner = us.FindById(User.Identity.GetUserId());
+            WebApplication.Models.Enrollment En = new WebApplication.Models.Enrollment();
+            En.Datetime = DateTime.Now;
+            En.CourseId = course.Id;
+            En.Course = course;
+            En.ApplicationUser = us.FindById(User.Identity.GetUserId());
+            LinkedList<Enrollment> Enrollments = new LinkedList<Enrollment>();
+            Enrollments.AddFirst(En);
+            course.Enrollments = Enrollments;
+            db.Enrollments.Add(En);
 
             //old
             char delimiter = ',';
