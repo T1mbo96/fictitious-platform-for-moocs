@@ -114,7 +114,7 @@ namespace WebApplication.Controllers
             Course course = db.Courses.Find(id);
             db.Courses.Remove(course);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("MyCourses", "MyCourses");
         }
 
         protected override void Dispose(bool disposing)

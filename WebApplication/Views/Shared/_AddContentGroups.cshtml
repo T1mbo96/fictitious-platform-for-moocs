@@ -70,7 +70,7 @@
     var rangeCounter = @counter;
 
     function addContentGroup() {
-        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='header' id='header" + jsCounter + "' type='text' placeholder='Header' class='form-control' required='required' /> </td> <td> <input name='order' id='order" + jsCounter + "' type='number' placeholder='Order' class='form-control' required='required' /> </td> <td> <button type='button' onclick='deleteContentGroup(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
+        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='header' id='header" + jsCounter + "' type='text' placeholder='Header' class='form-control' required='required' /> </td> <td> <input name='order' id='order" + jsCounter + "' type='number' placeholder='Order' class='form-control' required='required' min='1' /> </td> <td> <button type='button' onclick='deleteContentGroup(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
         $("#contentGroupTable").append(html);
         jsCounter++;
         rangeCounter++;
