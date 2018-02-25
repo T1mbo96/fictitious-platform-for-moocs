@@ -56,6 +56,7 @@ namespace WebApplication.Controllers
                 ViewBag.SearchString = searchString;
                 ViewBag.CourseName = course.Title;
                 ViewBag.EnrId = getEnrollmentId(course);
+                ViewBag.AvgRating = averageRating(getEnrollmentId(course));
 
                 return View("~/Views/MyCourses/MyCoursesDetails.cshtml", sortedGroupedContentGroups);
             }
@@ -78,6 +79,7 @@ namespace WebApplication.Controllers
                 ViewBag.SearchString = searchString;
                 ViewBag.CourseName = course.Title;
                 ViewBag.EnrId = getEnrollmentId(course);
+                ViewBag.AvgRating = averageRating(getEnrollmentId(course));
 
                 return View(sortedGroupedContentGroups);
             }
