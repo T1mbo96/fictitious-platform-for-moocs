@@ -45,7 +45,9 @@ namespace WebApplication.Controllers
                 Course course = db.Courses.Find(id);
                 List<ContentGroup> sortedGroupedContentGroups = cs.processContentGroups((int)id);
 
-                ViewBag.CourseName = course.Title;
+                ViewBag.CourseTitle = course.Title;
+                ViewBag.CourseId = course.Id;
+                ViewBag.CourseDescription = course.Description;
 
                 return View(sortedGroupedContentGroups);
             }

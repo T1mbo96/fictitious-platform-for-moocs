@@ -126,6 +126,9 @@ namespace WebApplication.Controllers
                 updateContentGroups(header, order, id);
             }
 
+            CourseSearchController cs = new CourseSearchController();
+            List<ContentGroup> sortedGroupedContentGroups = cs.processContentGroups(id);
+
             return View("~/Views/Home/Index.cshtml");
         }
 
@@ -141,6 +144,12 @@ namespace WebApplication.Controllers
 
         public void updateContentGroups(String[] header, int[] order, int id)
         {
+            List<ContentGroup> contentGroups = db.ContentGroups.Where(cg => cg.CourseId == id).ToList();
+            foreach (var cg in contentGroups)
+            {
+                db.ContentGroups.Remove(cg);
+            }
+
             for (int i = 0; i < header.Length; i++)
             {
                 ContentGroup cg = new ContentGroup();

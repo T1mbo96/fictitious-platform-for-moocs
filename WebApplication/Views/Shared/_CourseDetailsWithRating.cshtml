@@ -32,6 +32,7 @@
 {
     <div class="spacing" id="toCollapse">
         <h3>Bitte bewerten Sie diesen Kurs:</h3>
+        (von 1 = schlecht bis 5 = gut)
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-2" role="group" aria-label="First group">
                 <button onclick="setRating(1)" type="button" class="btn btn-primary">1</button>
@@ -47,12 +48,15 @@
         </div>
     </div>
 }
+<h3>
+    Die durchschnittliche Bewertung des Kurses beträgt: 
 
-@if (ViewBag.AlreadyRated == true)
-{
-    <span id="rating"> @ViewBag.AvgRating </span>
-}
-else
-{
-    <span id="rating"></span>
-}
+    @if (ViewBag.AlreadyRated == true)
+    {
+        <span id="rating"> @ViewBag.AvgRating </span>
+    }
+    else
+    {
+        <span id="rating"></span>
+    }
+</h3>

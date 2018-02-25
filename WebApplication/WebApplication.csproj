@@ -1392,6 +1392,7 @@
     <Content Include="Views\AddCourse\Index.cshtml" />
     <Content Include="Views\AddCourse\AddCourse.cshtml" />
     <Content Include="Views\Shared\_CourseDetailsWithRating.cshtml" />
+    <Content Include="Views\Shared\_AddContentGroups.cshtml" />
     <Content Include="Views\MyCourses\EditCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
