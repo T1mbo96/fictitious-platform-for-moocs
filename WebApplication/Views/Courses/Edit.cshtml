@@ -65,39 +65,3 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
- <script>
-     $("#New-Group").click(function () {
-       
-         var count = Groups.childElementCount+1;
-         var text = "<li id=G"+count +"><div  class=col-md-offset-2 col-md-10>Header  <input Id=G"+count+"T class=form-control type=textbox ></input></div><div><input name=#G"+count+"E id=NewElement  onclick=NewElement(G"+count+"E);  type=button value=New-Element class=btn btn-default /></div><ol id=G"+count+"E ></ol>   </li>";
-         $("#Groups").append(text);
-     })
-     //$("#initalize").click(function () {
-     
-         $("#Groups").on('click', "#NewElement", function () {
-             var element = "<li> <h3>Description and Type</h3> <div></div> </li>";
-           var key = $(this).attr('name');
-           
-                 $(key).append(test);
-    
-    
-  
-  //   })
-         
-     })
-    
-
-
-   //  $("#New-Group").click(function () {
-   //      $.getJSON("@Url.Action("AddGroup")", {
-    //     },
-   //      function(data){
-   //          var json = JSON.parse(data);
-     //        $("#Ergebnis").val(json)
- //        });
-  //   })
-    
-    </script>
-
-}
