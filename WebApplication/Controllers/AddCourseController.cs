@@ -101,7 +101,16 @@ namespace WebApplication.Controllers
             ViewBag.CourseId = course.Id;
 
             db.SaveChanges();
-            return View();
+
+            CourseSearchController cs = new CourseSearchController();
+            List<ContentGroup> sortedGroupedContentGroups = cs.processContentGroups(course.Id);
+
+            return View(sortedGroupedContentGroups);
+        }
+
+        public ActionResult AddContent()
+        {
+            return View("~/Views/Home/Index.cshtml");
         }
     }
 }
