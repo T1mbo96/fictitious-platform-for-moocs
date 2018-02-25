@@ -120,7 +120,12 @@ namespace WebApplication.Controllers
         public ActionResult AddContent(String description, String title, int id, String[] header, int[] order)
         {
             updateCourse(description, title, id);
-            updateContentGroups(header, order);
+
+            if (!((header == null || order == null) || (header.Length == 0 || order.Length == 0)))
+            {
+                updateContentGroups(header, order, id);
+            }
+
             return View("~/Views/Home/Index.cshtml");
         }
 
@@ -134,9 +139,21 @@ namespace WebApplication.Controllers
             db.SaveChanges();
         }
 
-        public void updateContentGroups(String[] header, int[] order)
+        public void updateContentGroups(String[] header, int[] order, int id)
         {
+            for (int i = 0; i < header.Length; i++)
+            {
+                ContentGroup cg = new ContentGroup();
+                Course course = db.Courses.Find(id);
 
+                cg.Header = header[i];
+                cg.Order = order[i];
+                cg.CourseId = id;
+                cg.Course = course;
+
+                db.ContentGroups.Add(cg);
+            }
+            db.SaveChanges();
         }
     }
 }
