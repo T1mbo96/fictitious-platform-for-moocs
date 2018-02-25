@@ -108,9 +108,26 @@ namespace WebApplication.Controllers
             return View(sortedGroupedContentGroups);
         }
 
-        public ActionResult AddContent()
+        public ActionResult AddContent(String description, String title, int id, String[] header, int[] order)
         {
+            updateCourse(description, title, id);
+            updateContentGroups(header, order);
             return View("~/Views/Home/Index.cshtml");
+        }
+
+        public void updateCourse(String description, String title, int id)
+        {
+            Course course = db.Courses.Find(id);
+
+            course.Description = description;
+            course.Title = title;
+
+            db.SaveChanges();
+        }
+
+        public void updateContentGroups(String[] header, int[] order)
+        {
+
         }
     }
 }

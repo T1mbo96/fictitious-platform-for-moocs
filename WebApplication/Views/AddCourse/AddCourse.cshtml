@@ -4,14 +4,34 @@
     ViewBag.Title = "Content anlegen";
     int counter = 0;
 }
-@ViewBag.CourseTitle
-@ViewBag.CourseDescription
-@ViewBag.CourseId
 
 <div id="contentGroups">
-    <form class="search-form" action="@Url.Action("AddContent", "AddCourse")" method="get">
-        <input type="text" class="form-control" placeholder="@ViewBag.CourseDescription" />
-        <table class="table">
+    <form action="@Url.Action("AddContent", "AddCourse")" method="post">
+        <table class="table" id="courseElementTable">
+            <tr>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Id
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" class="form-control" value="@ViewBag.CourseDescription" placeholder="Description" id="description" name="description" />
+                </td>
+                <td>
+                    <input type="text" class="form-control" value="@ViewBag.CourseTitle" placeholder="Title" id="title" name="title" />
+                </td>
+                <td>
+                    <input type="number" class="form-control" value="@ViewBag.CourseId" readonly="readonly" name="id" />
+                </td>
+            </tr>
+        </table>
+        <table class="table" id="contentGroupTable">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Header)
@@ -23,52 +43,42 @@
 
             @foreach (var item in Model)
             {
-                <tr>
+                <tr id="row+@counter">
                     <td>
-                        @Html.DisplayFor(modelItem => item.Header)
+                        <input name="header" id="header + @counter" type="text" placeholder="Header" class="form-control" required="required" value="@item.Header" />
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Order)
+                        <input name="order" id="order + @counter" type="number" placeholder="Order" class="form-control" required="required" min="1" max="rangeCounter" value="@item.Order" />
                     </td>
                     <td>
-                        <button type="button" onclick="deleteContentGroup(@counter)">Delete</button>
+                        <button type="button" onclick="deleteContentGroup(@counter)" class="btn btn-primary">Delete</button>
                     </td>
                 </tr>
             }
         </table>
-    </form>
+        <button type="button" onclick="addContentGroup()" class="btn btn-primary">Add new Content Group</button> 
+        <div class="spacing">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+     </form>
 </div>
 
 
 <script>
+    var jsCounter = @counter;
+    var rangeCounter = @counter;
 
-        var counter = 0
-        function addContentGroup() {
-            var html =
+    function addContentGroup() {
+        var html = "<tr id='row" + jsCounter + "'> <td> <input name='header' id='header" + jsCounter + "' type='text' placeholder='Header' class='form-control' required='required' /> </td> <td> <input name='order' id='order" + jsCounter + "' type='number' placeholder='Order' class='form-control' required='required' /> </td> <td> <button type='button' onclick='deleteContentGroup(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
+        $("#contentGroupTable").append(html);
+        jsCounter++;
+        rangeCounter++;
+    }
 
-
-
-            $("#accordion").append(html)
-            counter++
-        }
-
-
-
-
-
-        function addContentElement(counter) {
-
-
-            var html = "<input id='description" + counter + "." + m.get(counter) + "' type='text' class='form-control'/> <input id='url" + counter + "." + m.get(counter) + "' type='text' class='form-control'/> <input class='form-control' id='order'" + counter + "." + m.get(counter) + " type='number' placeholder='Order' step='1' min='1' max=" + counter + 1 + "> <select class='selectpicker'><option>PDF</option><option>Video</option><option>Text</option></select>"
-
-
-
-            $("#accordion" + counter).append(html)
-            m.set(counter, m.get(counter) + 1)
-        }
-
-
-
-
-
+    function deleteContentGroup(cgCounter) {
+        var elem = document.getElementById("row"+cgCounter);
+        elem.parentNode.removeChild(elem);
+        rangeCounter--;
+    }
 </script>
+
