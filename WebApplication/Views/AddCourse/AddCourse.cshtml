@@ -2,52 +2,49 @@
 
 @{
     ViewBag.Title = "Content anlegen";
-
+    int counter = 0;
 }
 @ViewBag.CourseTitle
 @ViewBag.CourseDescription
 @ViewBag.CourseId
 
 <div id="contentGroups">
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Header)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Order)
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <form class="search-form" action="@Url.Action("AddContent", "AddCourse")" method="get">
+        <input type="text" class="form-control" placeholder="@ViewBag.CourseDescription" />
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Header)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Order)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Header)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order)
+                </th>
             </tr>
-        }
-    </table>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Header)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Order)
+                    </td>
+                    <td>
+                        <button type="button" onclick="deleteContentGroup(@counter)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </form>
 </div>
 
 
 <script>
 
-        //get types PDF Video Text
-        var array = ["PDF", "Video", "Text"];
-        //
-        counter = 0
-        var m = new Map();
+        var counter = 0
         function addContentGroup() {
-
-            m.set(counter, 0)
-            var html = "<div class='card'> <div class='card-header' id='heading" + counter + "'> <h4 class='mb-0'> <button class='btn btn-link' data-toggle='collapse' data-target='#" + counter + "' aria-expanded='false' aria-controls='" + counter + "'> <h3> ContentGroup " + counter + "</h3> </button> </h4> </div> </div> <div id=" + counter + " class='collapse' aria-labelledby='heading" + counter + "' data-parent='#accordion'>  <div id='accordion" + counter + "'class='card-body'> <input class='form-control' id='header'" + counter + "/> <input class='form-control' id='order'" + counter + " type='number' placeholder='Order' step='1' min='1' max=" + counter + 1 + "> <button id='button" + counter + "' onclick='addContentElement(" + counter + ")' class='btn btn-primary'>New Content Element</button> </div> </div> </div>"
+            var html =
 
 
 
