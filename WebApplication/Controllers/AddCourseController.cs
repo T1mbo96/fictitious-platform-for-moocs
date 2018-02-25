@@ -114,7 +114,7 @@ namespace WebApplication.Controllers
             CourseSearchController cs = new CourseSearchController();
             List<ContentGroup> sortedGroupedContentGroups = cs.processContentGroups(course.Id);
 
-            return View(sortedGroupedContentGroups);
+            return View("~/Views/AddCourse/AddContentElement.cshtml"); ;
         }
 
         public ActionResult AddContent(String description, String title, int id, String[] header, int[] order)
