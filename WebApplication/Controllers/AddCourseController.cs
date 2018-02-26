@@ -178,7 +178,9 @@ namespace WebApplication.Controllers
             ContentGroup cg = db.ContentGroups.Find(id);
 
             List<ContentElement> sortedContentElements = cg.ContentElements.OrderBy(order => order.Order).ToList();
-
+            //Adrian
+            ViewBag.CGid = id;
+            //adrian
             return View(sortedContentElements);
         }
 
@@ -186,6 +188,57 @@ namespace WebApplication.Controllers
         public ActionResult SaveContentElement()
         {
             return View();
+        }
+
+
+
+        //Adrian
+        [HttpPost]
+        public ActionResult SaveContentElements(int CGId, String[] description, int[] order, String[] type, String[] url)
+        {
+            if (!((description.Length == 0 || url.Length == 0) || (type.Length == 0 || order.Length == 0)))
+            {
+                updateContentElements(CGId, description, url, order, type);
+            }
+            
+            CourseSearchController cs = new CourseSearchController();
+            List<ContentGroup> sortedGroupedContentGroups = cs.processContentGroups(db.Courses.OrderByDescending(p => p.Id).FirstOrDefault().Id);
+
+
+
+            return View("~/Views/AddCourse/AddContent.cshtml",sortedGroupedContentGroups);
+        }
+
+        public void updateContentElements(int listCeId, String[] description, String[] url, int[] order, String[] type)
+        {
+            List<ContentElement> contentElements = db.ContentElements.Where(ce => ce.ContentGroupId == listCeId).ToList();
+            foreach (var ce in contentElements)
+            {
+                db.ContentElements.Remove(ce);
+            }
+
+
+            for (int i = 0; i < description.Length; i++)
+            {
+                ContentElement ce = new ContentElement();
+                Models.Type t = new Models.Type();
+                //if(db.Types.Contains(type[i]))
+                t.Name = type[i];
+
+                //Course course = db.Courses.Find(id);
+
+                ce.Description = description[i];
+                ce.URL = url[i];
+                ce.Order = order[i];
+                ce.Type = t;
+                ce.ContentGroup = db.ContentGroups.Find(listCeId);
+                ce.ContentGroupId = listCeId;
+
+                db.Types.Add(t);
+                db.ContentElements.Add(ce);
+
+            }
+            db.SaveChanges();
         }
     }
 }

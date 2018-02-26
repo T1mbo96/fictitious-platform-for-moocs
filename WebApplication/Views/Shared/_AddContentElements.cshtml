@@ -1,0 +1,114 @@
+﻿@model IEnumerable<WebApplication.Models.ContentElement>
+
+@{
+    ViewBag.Title = "ContentElemente bearbeiten";
+    int counter = 0;
+}
+@ViewBag.id
+<div id="contentGroups">
+    <form action="@Url.Action("SaveContentElements", "AddCourse")" method="post">
+        <table class="table" id="contentElementTable">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order)
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.URL)
+                </th>
+                <td>
+                    <input type="number" class="form-control" value="@ViewBag.CGid" readonly="readonly" name="CGId" id="ContentElementId" />
+                </td>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr id="row+@counter">
+                    <td>
+                        <input name="description" id="description + @counter" type="text" placeholder="Description" class="form-control" required="required" value="@item.Description" />
+                    </td>
+                    <td>
+                        <select id="select + @counter"></select>
+                    </td>
+                    <td>
+                        <select class="selectpicker" name="type" value="Text">
+                            <option>
+                                PDF
+                            </option>
+                            <option>
+                                Video
+                            </option>
+                            <option>
+                                Text
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input name="url" id="url + @counter" type="text" placeholder="Description" class="form-control" required="required" value="@item.URL" />
+                    </td>
+                    <td>
+                        <button type="button" onclick="deleteContentElement(@counter)" class="btn btn-primary">Delete</button>
+                    </td>
+                </tr>
+                counter = counter + 1;
+            }
+        </table>
+        <button type="button" onclick="addContentElement()" class="btn btn-primary">Add new Content Group</button>
+        <div class="spacing">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    var jsCounter = @counter;
+    var rangeCounter = @counter;
+
+    function addContentElement() {
+        if(rangeCounter<0){
+            rangeCounter=0;
+        }
+        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='description' id='description" + jsCounter + "' type='text' placeholder='Description' class='form-control' required='required' /> </td> <td> <select name='order' id='select"+rangeCounter+"' ></select> </td> <td> <select name='type' class='selectpicker'> <option> PDF </option> <option> Video </option> <option> Text </option> </select> </td> <td> <input name='url' id='url" + jsCounter + "' type='text' placeholder='URL' class='form-control' required='required' /> </td> <td> <button type='button' onclick='deleteContentElement(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
+        $("#contentElementTable").append(html);
+        jsCounter++;
+        rangeCounter++;
+        if(rangeCounter!=1){
+            for(var i=rangeCounter-2; i>=0; i-- ){
+
+                var lastelement= "<option id="+rangeCounter+">"+rangeCounter+ "</option>";
+                var key = "select"+i;
+                $("#"+key).append(lastelement);
+            }
+        }
+        for(var i=1;i<=rangeCounter;i++){
+            var element= "<option id="+i+">"+i+"</option>";
+            o=rangeCounter-1;
+            var key = "select"+o;
+            $("#"+key).append(element);
+        }
+    }
+
+    function deleteContentElement(ceCounter) {
+        var elem = document.getElementById("row+"+ceCounter);
+        elem.parentNode.removeChild(elem);
+        for(var i=rangeCounter; i>ceCounter;i--){
+            var key="select"+i;
+            var place=i-1
+            $("#"+key).attr("id", "select"+place);
+        }
+
+        for(var i=1;i<rangeCounter;i++){
+            $("#"+rangeCounter).remove('*');
+        }
+
+        rangeCounter--;
+    }
+</script>
+
+

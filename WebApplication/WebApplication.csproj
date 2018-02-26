@@ -1396,6 +1396,8 @@
     <Content Include="Views\MyCourses\EditCourse.cshtml" />
     <Content Include="Views\AddCourse\AddContent.cshtml" />
     <Content Include="Views\AddCourse\AddContentElements.cshtml" />
+    <Content Include="Views\Shared\_AddContentElements.cshtml" />
+    <Content Include="Views\Shared\_AddContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
