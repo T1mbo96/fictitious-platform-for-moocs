@@ -1,0 +1,31 @@
+﻿@model IEnumerable<WebApplication.Models.ContentGroup>
+
+@{ 
+    ViewBag.Title = "ContentGroup auswählen";
+}
+
+<div id="contentGroups">
+    <form action="@Url.Action("AddContentElement", "AddCourse")" method="post">
+        <table class="table">
+            <tr>
+                <th>
+                    Header
+                </th>
+                <th>
+                    Bearbeitungsmöglichkeit
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Header
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "AddContentElements", "AddCourse", new { id = item.Id }, null)
+                    </td>
+                </tr>
+            }
+        </table>
+    </form>
+</div>

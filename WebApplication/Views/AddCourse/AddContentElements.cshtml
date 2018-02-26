@@ -1,0 +1,83 @@
+﻿@model IEnumerable<WebApplication.Models.ContentElement>
+
+@{
+    ViewBag.Title = "ContentElemente bearbeiten";
+    int counter = 0;
+}
+
+<div id="contentGroups">
+    <form action="@Url.Action("SaveContentElements", "AddCourse")" method="post">
+        <table class="table" id="contentElementTable">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.URL)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr id="row+@counter">
+                    <td>
+                        <input name="description" id="description + @counter" type="text" placeholder="Description" class="form-control" required="required" value="@item.Description" />
+                    </td>
+                    <td>
+                        <input name="order" id="order + @counter" type="number" placeholder="Order" class="form-control" required="required" min="1" max="rangeCounter" value="@item.Order" />
+                    </td>
+                    <td>
+                        <select class="selectpicker">
+                            <option>
+                                PDF
+                            </option>
+                            <option>
+                                Video
+                            </option>
+                            <option>
+                                Text
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input name="url" id="url + @counter" type="text" placeholder="Description" class="form-control" required="required" value="@item.URL" />
+                    </td>
+                    <td>
+                        <button type="button" onclick="deleteContentElement(@counter)" class="btn btn-primary">Delete</button>
+                    </td>
+                </tr>
+                counter = counter + 1;
+            }
+        </table>
+        <button type="button" onclick="addContentElement()" class="btn btn-primary">Add new Content Group</button>
+        <div class="spacing">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    var jsCounter = @counter;
+    var rangeCounter = @counter;
+
+    function addContentElement() {
+        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='description' id='description" + jsCounter + "' type='text' placeholder='Description' class='form-control' required='required' /> </td> <td> <input name='order' id='order" + jsCounter + "' type='number' placeholder='Order' class='form-control' required='required' min='1' /> </td> <td> <select class='selectpicker'> <option> PDF </option> <option> Video </option> <option> Text </option> </select> </td> <td> <input name='url' id='url" + jsCounter + "' type='text' placeholder='URL' class='form-control' required='required' /> </td> <td> <button type='button' onclick='deleteContentElement(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
+        $("#contentElementTable").append(html);
+        jsCounter++;
+        rangeCounter++;
+    }
+
+    function deleteContentElement(ceCounter) {
+        var elem = document.getElementById("row+"+ceCounter);
+        elem.parentNode.removeChild(elem);
+        rangeCounter--;
+    }
+</script>
+
