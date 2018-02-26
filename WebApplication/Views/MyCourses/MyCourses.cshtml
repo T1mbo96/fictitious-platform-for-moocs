@@ -39,7 +39,12 @@ else
                     @Html.ActionLink("Details", "SearchResultDetails", "CourseSearch", new { id = item.Id, searchString = "", b = true }, null) |
                     @if (item.Owner.Id == ViewBag.CurrentUser)
                     {
-                        @Html.ActionLink("Edit", "EditCourse", "MyCourses", new { id = item.Id }, null);
+                        @Html.ActionLink("Edit", "EditCourse", "MyCourses", new { id = item.Id }, null) 
+                    } 
+                    |
+                    @if (item.Owner.Id == ViewBag.CurrentUser)
+                    { 
+                        @Html.ActionLink("Delete", "Delete", "Courses", new { id = item.Id }, null)
                     }
                 </td>
             </tr>
