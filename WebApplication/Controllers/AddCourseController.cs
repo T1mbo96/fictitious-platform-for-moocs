@@ -129,7 +129,15 @@ namespace WebApplication.Controllers
             CourseSearchController cs = new CourseSearchController();
             List<ContentGroup> sortedGroupedContentGroups = cs.processContentGroups(id);
 
-            return View("~/Views/Home/Index.cshtml");
+            List<int> counterList = new List<int>();
+            for (int i = 0; i < sortedGroupedContentGroups.Count(); i++)
+            {
+                counterList.Add(sortedGroupedContentGroups[i].ContentElements.Count());
+            }
+
+            ViewBag.CounterList = counterList;
+
+            return View(sortedGroupedContentGroups);
         }
 
         public void updateCourse(String description, String title, int id)
@@ -164,5 +172,19 @@ namespace WebApplication.Controllers
             }
             db.SaveChanges();
         }
+
+        public ActionResult AddContentElements(int id)
+        {
+            ContentGroup cg = db.ContentGroups.Find(id);
+
+            List<ContentElement> sortedContentElements = cg.ContentElements.OrderBy(order => order.Order).ToList();
+
+            return View(sortedContentElements);
+        }
+    }
+
+    public ActionResult SaveContentElement()
+    {
+
     }
 }
