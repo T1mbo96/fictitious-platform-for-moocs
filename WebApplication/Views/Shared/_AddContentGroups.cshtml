@@ -47,8 +47,10 @@
                     <td>
                         <input name="header" id="header + @counter" type="text" placeholder="Header" class="form-control" required="required" value="@item.Header" />
                     </td>
-                    <td>
-                        <input name="order" id="order + @counter" type="number" placeholder="Order" class="form-control" required="required" min="1" max="rangeCounter" value="@item.Order" />
+                    <td id="table" >
+                       <select id="select + @counter">
+
+                       </select>
                     </td>
                     <td>
                         <button type="button" onclick="deleteContentGroup(@counter)" class="btn btn-primary">Delete</button>
@@ -67,18 +69,71 @@
 
 <script>
     var jsCounter = @counter;
-    var rangeCounter = @counter;
+    var rangeCounter = 0;
+
+   
+      
+    
 
     function addContentGroup() {
-        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='header' id='header" + jsCounter + "' type='text' placeholder='Header' class='form-control' required='required' /> </td> <td> <input name='order' id='order" + jsCounter + "' type='number' placeholder='Order' class='form-control' required='required' /> </td> <td> <button type='button' onclick='deleteContentGroup(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
+        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='header' id='header" + jsCounter + "' type='text' placeholder='Header' class='form-control' required='required' /> </td> <td id='table' > <select id='select"+rangeCounter+"' ></select> </td> <td> <button type='button' onclick='deleteContentGroup(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
         $("#contentGroupTable").append(html);
         jsCounter++;
         rangeCounter++;
+        if(rangeCounter!=1){
+            for(var i=rangeCounter-2; i>=0; i-- ){
+                
+                var lastelement= "<option id="+rangeCounter+">"+rangeCounter+ "</option>";
+                var key = "select"+i;
+                $("#"+key).append(lastelement);
+            }
+        }
+            for(var i=1;i<=rangeCounter;i++){
+                var element= "<option id="+i+">"+i+"</option>";
+                o=rangeCounter-1;
+                var key = "select"+o;
+                $("#"+key).append(element);
+            }
+        
+    
+
+
+
+
+        
     }
 
     function deleteContentGroup(cgCounter) {
         var elem = document.getElementById("row+"+cgCounter);
         elem.parentNode.removeChild(elem);
-        rangeCounter--;
+        for(var i=rangeCounter; i>cgCounter;i--){
+            var key="select"+i;
+            var place=i-1
+            $("#"+key).attr("id", "select"+place);
+        }
+
+        for(var i=1;i<rangeCounter;i++){
+            $("#"+rangeCounter).remove('*');
+        }
+        
+       rangeCounter--;
     }
+    
+    $("form").submit(function(){
+        var comparable;
+        var mom;
+        for(var i=0;i<rangeCounter;i++){
+            comparable= $('#select'+i).find(":selected").text();
+        
+           
+            for(var j=0;j<rangeCounter;j++){
+                mom=$('#select'+j).find(":selected").text();
+                if(mom.is(comparable)&&j!=i){
+                    alert("Es müssen unterschiedliche Orders gewählt werden");
+                    return false;
+                }
+            }
+        }
+        return true;
+    });
 </script>
