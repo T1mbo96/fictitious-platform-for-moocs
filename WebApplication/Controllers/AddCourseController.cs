@@ -15,11 +15,11 @@ namespace WebApplication.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: AddCourse
+        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
-
 
         [HttpPost]
         public ActionResult AddCourse(String CourseTitle, String Description, String Tags)
@@ -136,6 +136,9 @@ namespace WebApplication.Controllers
             }
 
             ViewBag.CounterList = counterList;
+            ViewBag.CourseId = id;
+            ViewBag.CourseDescription = description;
+            ViewBag.CourseTitle = title;
 
             return View(sortedGroupedContentGroups);
         }
@@ -184,13 +187,10 @@ namespace WebApplication.Controllers
             return View(sortedContentElements);
         }
 
-
         public ActionResult SaveContentElement()
         {
             return View();
         }
-
-
 
         //Adrian
         [HttpPost]
@@ -203,8 +203,6 @@ namespace WebApplication.Controllers
             
             CourseSearchController cs = new CourseSearchController();
             List<ContentGroup> sortedGroupedContentGroups = cs.processContentGroups(db.Courses.OrderByDescending(p => p.Id).FirstOrDefault().Id);
-
-
 
             return View("~/Views/AddCourse/AddContent.cshtml",sortedGroupedContentGroups);
         }
