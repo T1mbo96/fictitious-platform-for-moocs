@@ -48,7 +48,7 @@
                         <input name="header" id="header + @counter" type="text" placeholder="Header" class="form-control" required="required" value="@item.Header" />
                     </td>
                     <td id="table" >
-                       <select id="select + @counter">
+                       <select id="select + @counter" name="order">
 
                        </select>
                     </td>
@@ -76,7 +76,7 @@
     
 
     function addContentGroup() {
-        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='header' id='header" + jsCounter + "' type='text' placeholder='Header' class='form-control' required='required' /> </td> <td id='table' > <select id='select"+rangeCounter+"' ></select> </td> <td> <button type='button' onclick='deleteContentGroup(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
+        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='header' id='header" + jsCounter + "' type='text' placeholder='Header' class='form-control' required='required' /> </td> <td id='table' > <select id='select"+rangeCounter+"' name='order'></select> </td> <td> <button type='button' onclick='deleteContentGroup(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
         $("#contentGroupTable").append(html);
         jsCounter++;
         rangeCounter++;

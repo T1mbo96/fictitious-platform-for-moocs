@@ -181,10 +181,9 @@ namespace WebApplication.Controllers
 
             return View(sortedContentElements);
         }
-    }
-
-    public ActionResult SaveContentElement()
-    {
-
+        public ActionResult SaveContentElements()
+        {
+            return View();
+        }
     }
 }
