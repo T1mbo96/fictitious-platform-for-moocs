@@ -16,7 +16,7 @@ namespace WebApplication.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: AddCourse
         public ActionResult Index()
-        {   
+        {
             return View();
         }
 
@@ -181,7 +181,9 @@ namespace WebApplication.Controllers
 
             return View(sortedContentElements);
         }
-        public ActionResult SaveContentElements()
+
+
+        public ActionResult SaveContentElement()
         {
             return View();
         }

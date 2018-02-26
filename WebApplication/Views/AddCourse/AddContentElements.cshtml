@@ -11,11 +11,10 @@
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
-                </th>
+                </th>                
                 <th>
                     @Html.DisplayNameFor(model => model.Order)
-                </th>
-                <th>
+<th>
                     @Html.DisplayNameFor(model => model.Type)
                 </th>
                 <th>
@@ -30,7 +29,10 @@
                         <input name="description" id="description + @counter" type="text" placeholder="Description" class="form-control" required="required" value="@item.Description" />
                     </td>
                     <td>
-                        <input name="order" id="order + @counter" type="number" placeholder="Order" class="form-control" required="required" min="1" max="rangeCounter" value="@item.Order" />
+                        <select id="select + @counter">
+
+
+                        </select>
                     </td>
                     <td>
                         <select class="selectpicker">
@@ -68,15 +70,42 @@
     var rangeCounter = @counter;
 
     function addContentElement() {
-        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='description' id='description" + jsCounter + "' type='text' placeholder='Description' class='form-control' required='required' /> </td> <td> <input name='order' id='order" + jsCounter + "' type='number' placeholder='Order' class='form-control' required='required' min='1' /> </td> <td> <select class='selectpicker'> <option> PDF </option> <option> Video </option> <option> Text </option> </select> </td> <td> <input name='url' id='url" + jsCounter + "' type='text' placeholder='URL' class='form-control' required='required' /> </td> <td> <button type='button' onclick='deleteContentElement(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
+        if(rangeCounter<0){
+            rangeCounter=0;
+        }
+        var html = "<tr id='row+" + jsCounter + "'> <td> <input name='description' id='description" + jsCounter + "' type='text' placeholder='Description' class='form-control' required='required' /> </td> <td> <select name='order' id='select"+rangeCounter+"' ></select> </td> <td> <select class='selectpicker'> <option> PDF </option> <option> Video </option> <option> Text </option> </select> </td> <td> <input name='url' id='url" + jsCounter + "' type='text' placeholder='URL' class='form-control' required='required' /> </td> <td> <button type='button' onclick='deleteContentElement(" + jsCounter + ")' class='btn btn-primary'>Delete</button> </td> </tr>";
         $("#contentElementTable").append(html);
         jsCounter++;
         rangeCounter++;
+        if(rangeCounter!=1){
+            for(var i=rangeCounter-2; i>=0; i-- ){
+                
+                var lastelement= "<option id="+rangeCounter+">"+rangeCounter+ "</option>";
+                var key = "select"+i;
+                $("#"+key).append(lastelement);
+            }
+        }
+        for(var i=1;i<=rangeCounter;i++){
+            var element= "<option id="+i+">"+i+"</option>";
+            o=rangeCounter-1;
+            var key = "select"+o;
+            $("#"+key).append(element);
+        }
     }
 
     function deleteContentElement(ceCounter) {
         var elem = document.getElementById("row+"+ceCounter);
         elem.parentNode.removeChild(elem);
+        for(var i=rangeCounter; i>ceCounter;i--){
+            var key="select"+i;
+            var place=i-1
+            $("#"+key).attr("id", "select"+place);
+        }
+
+        for(var i=1;i<rangeCounter;i++){
+            $("#"+rangeCounter).remove('*');
+        }
+        
         rangeCounter--;
     }
 </script>
